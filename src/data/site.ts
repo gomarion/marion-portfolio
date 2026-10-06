@@ -16,7 +16,19 @@ export const navItems = [
 ] as const;
 
 export const socialLinks = [
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/gomarion/" },
-  { label: "GitHub", href: "https://github.com/gomarion" },
-  { label: "Email", href: `mailto:${site.email}` },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/gomarion/",
+    icon: { src: "/images/icons/linkedin.svg", width: 20, height: 20 },
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/gomarion",
+    icon: { src: "/images/icons/github.svg", width: 20, height: 20 },
+  },
+  {
+    label: "Email",
+    href: `mailto:${site.email}`,
+    icon: { src: "/images/icons/email.svg", width: 27, height: 20 },
+  },
 ] as const;
