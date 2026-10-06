@@ -7,14 +7,13 @@ type SingleImageProps = {
   crop?: { left: number; top: number; width: number; height: number };
 };
 
-// Figma Personal Accountant "image 2" (112:93): one left-aligned 1004×821
-// frame. `crop` reproduces Figma's slight trim of the screenshot's edges.
+// Figma Personal Accountant "image 2" (112:93): one full-width frame with a
+// 1004:821 ratio. `crop` reproduces Figma's slight trim of the screenshot's edges.
 export function SingleImage({ image, frame, crop }: SingleImageProps) {
   return (
     <div
       className="relative w-full overflow-hidden"
       style={{
-        maxWidth: `${frame.width / 16}rem`,
         aspectRatio: `${frame.width} / ${frame.height}`,
       }}
     >
@@ -23,7 +22,7 @@ export function SingleImage({ image, frame, crop }: SingleImageProps) {
         alt={image.alt}
         width={image.width}
         height={image.height}
-        sizes="(min-width: 1024px) 1004px, 100vw"
+        sizes="(min-width: 1280px) 980px, 100vw"
         className="absolute max-w-none"
         style={
           crop

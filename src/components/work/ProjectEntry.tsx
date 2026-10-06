@@ -7,20 +7,20 @@ type ProjectEntryProps = {
   number: number;
 };
 
-// Figma project block: label, title + description, stack (30px apart, 1245px
-// wide), then the gallery 50px below.
+// Figma project block: label, title + description, stack (30px apart), then
+// the gallery 50px below. Fills the 980px Work panel.
 export function ProjectEntry({ project, number }: ProjectEntryProps) {
   const index = String(number).padStart(2, "0");
 
   return (
     <article>
-      <div className="flex max-w-311.25 flex-col gap-7.5">
+      <div className="flex flex-col gap-7.5">
         <p className="text-lead font-semibold uppercase">
           {index} / {project.label}
         </p>
         <div className="flex flex-col gap-3.75">
           <h3 className="text-body font-semibold uppercase">{project.title}</h3>
-          <p className="text-body">{project.description}</p>
+          <p className="text-body-sm">{project.description}</p>
         </div>
         <TechStack items={project.stack} />
       </div>

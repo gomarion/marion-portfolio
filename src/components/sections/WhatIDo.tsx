@@ -16,7 +16,7 @@ export function WhatIDo() {
               </span>
               <span className="block">{service.title}</span>
             </h3>
-            <p className="text-body">{service.description}</p>
+            <p className="text-body-sm">{service.description}</p>
           </li>
         ))}
       </ul>
