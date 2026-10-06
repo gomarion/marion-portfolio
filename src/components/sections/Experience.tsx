@@ -1,0 +1,24 @@
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { experience, experienceSummary } from "@/data/experience";
+
+// Figma "Experience" (126:173): a 541px centered column with centered text.
+export function Experience() {
+  return (
+    <section
+      id="experience"
+      className="mx-auto w-full max-w-135.25 text-center"
+    >
+      <SectionHeading>Experience</SectionHeading>
+      <p className="mt-3.75 text-body">{experienceSummary}</p>
+      <ul className="mt-12.75 flex flex-col gap-12.5">
+        {experience.map((job) => (
+          <li key={`${job.years}-${job.company}`} className="text-body">
+            <p>{job.years}</p>
+            <p className="font-semibold">{job.role}</p>
+            <p>{job.company}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
