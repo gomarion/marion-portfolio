@@ -3,10 +3,10 @@ import { navItems, site } from "@/data/site";
 import { MobileNav } from "./MobileNav";
 
 // Figma "Frame 18" (148:100): sits at x 76 / y 56 inside the 1440px hero and
-// spans to x 1400. The hero background is added behind it by the Hero section.
+// spans to x 1400. It overlays the Hero section, which supplies the background.
 export function SiteHeader() {
   return (
-    <header id="top" className="relative">
+    <header id="top" className="absolute inset-x-0 top-0 z-10">
       <div className="mx-auto flex max-w-360 items-center justify-between gap-6 px-4 pt-6 sm:px-6 lg:pt-14 xl:pr-10 xl:pl-19">
         <a href="#top" className="flex min-w-0 items-center gap-2.5">
           <Image
