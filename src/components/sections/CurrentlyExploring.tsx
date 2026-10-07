@@ -14,7 +14,7 @@ export function CurrentlyExploring() {
   return (
     <section className="mx-auto w-full max-w-204">
       <SectionHeading>Currently Exploring</SectionHeading>
-      <p className="mt-8.25 text-body">
+      <p className="mt-5 text-body">
         After years of working primarily with CMS-driven websites, I&apos;m
         expanding my toolkit into modern JavaScript development.
       </p>

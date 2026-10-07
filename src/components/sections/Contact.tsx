@@ -7,7 +7,7 @@ export function Contact() {
   return (
     <section id="contact" className="mx-auto w-full max-w-204">
       <SectionHeading>Have a project in mind?</SectionHeading>
-      <p className="mt-1.25 text-body">
+      <p className="mt-5 text-body">
         I&apos;m always interested in interesting web projects, development
         opportunities, and conversations about the web.
       </p>
