@@ -24,11 +24,11 @@ export const socialLinks = [
   {
     label: "GitHub",
     href: "https://github.com/gomarion",
-    icon: { src: "/images/icons/github.svg", width: 20, height: 20 },
+    icon: { src: "/images/icons/github.svg", width: 22, height: 22 },
   },
   {
     label: "Email",
     href: `mailto:${site.email}`,
-    icon: { src: "/images/icons/email.svg", width: 27, height: 20 },
+    icon: { src: "/images/icons/email.svg", width: 24, height: 18 },
   },
 ] as const;

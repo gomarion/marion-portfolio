@@ -7,7 +7,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-line bg-paper">
       <div className="mx-auto flex max-w-360 flex-wrap items-center justify-between gap-x-6 gap-y-4 px-4 py-6.25 sm:px-5.75">
-        <ul className="flex items-end gap-7.5">
+        <ul className="flex h-5 items-center gap-7.5">
           {socialLinks.map((link) => (
             <li key={link.label} className="flex">
               <a
