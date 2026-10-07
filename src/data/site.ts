@@ -10,8 +10,8 @@ export const site = {
 export const navItems = [
   { label: "Home", href: "#top" },
   { label: "Work", href: "#work" },
-  { label: "Experience", href: "#experience" },
   { label: "What I Do", href: "#what-i-do" },
+  { label: "Experience", href: "#experience" },
   { label: "Contact", href: "#contact" },
 ] as const;
 
