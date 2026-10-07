@@ -1,3 +1,4 @@
+import { RichTextContent } from "@/components/ui/RichTextContent";
 import { TechStack } from "@/components/ui/TechStack";
 import type { Project } from "@/data/projects";
 import { ProjectMedia } from "./ProjectMedia";
@@ -20,7 +21,9 @@ export function ProjectEntry({ project, number }: ProjectEntryProps) {
         </p>
         <div className="flex flex-col gap-3.75">
           <h3 className="text-body font-semibold uppercase">{project.title}</h3>
-          <p className="text-body-sm">{project.description}</p>
+          <p className="text-body-sm">
+            <RichTextContent content={project.description} />
+          </p>
         </div>
         <TechStack items={project.stack} />
       </div>

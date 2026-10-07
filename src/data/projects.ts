@@ -32,10 +32,13 @@ export type ProjectGallery =
       crop?: { left: number; top: number; width: number; height: number };
     };
 
+// Plain text, or text with inline links: ["Built on ", { text: "Dawn", href }, "."]
+export type RichText = (string | { text: string; href: string })[];
+
 export type Project = {
   label: string;
   title: string;
-  description: string;
+  description: RichText;
   stack: string[];
   gallery: ProjectGallery;
 };
@@ -51,8 +54,13 @@ export const projects: Project[] = [
   {
     label: "Shopify",
     title: "Custom Shopify Theme",
-    description:
-      "A custom Shopify theme based on Dawn, developed with the goal of submitting it to the Shopify Theme Store.",
+    description: [
+      "A custom Shopify theme based on ",
+      { text: "Dawn", href: "https://github.com/shopify/dawn" },
+      ", developed with the goal of submitting it to the ",
+      { text: "Shopify Theme Store", href: "https://themes.shopify.com/" },
+      ".",
+    ],
     stack: ["Shopify", "Liquid", "JavaScript", "HTML", "CSS/SASS"],
     gallery: {
       layout: "slider",
@@ -100,8 +108,11 @@ export const projects: Project[] = [
   {
     label: "Ghost",
     title: "Incredible Theme",
-    description:
-      "A custom Ghost theme built with a focus on typography, responsive layouts, and a flexible publishing experience.",
+    description: [
+      "A custom ",
+      { text: "Ghost", href: "https://ghost.org/" },
+      " theme built with a focus on typography, responsive layouts, and a flexible publishing experience.",
+    ],
     stack: ["Ghost", "Handlebars", "HTML", "CSS/SASS", "JavaScript"],
     gallery: {
       layout: "collage",
@@ -130,8 +141,11 @@ export const projects: Project[] = [
   {
     label: "Tumblr",
     title: "Tumblr Themes",
-    description:
-      "A collection of commercial Tumblr themes developed for a diverse audience, combining responsive design, customization, and reusable frontend architecture.",
+    description: [
+      "A collection of commercial ",
+      { text: "Tumblr themes", href: "https://www.tumblr.com/themes/" },
+      " developed for a diverse audience, combining responsive design, customization, and reusable frontend architecture.",
+    ],
     stack: ["Tumblr", "HTML", "CSS/SASS", "JavaScript", "Responsive Design"],
     gallery: {
       layout: "tiles",
@@ -180,8 +194,11 @@ export const projects: Project[] = [
   {
     label: "WordPress",
     title: "WordPress Development",
-    description:
-      "Years of building and maintaining custom WordPress websites, from bespoke themes and block-based experiences to WooCommerce and API integrations.",
+    description: [
+      "Years of building and maintaining custom ",
+      { text: "WordPress", href: "https://wordpress.org/" },
+      " websites, from bespoke themes and block-based experiences to WooCommerce and API integrations.",
+    ],
     stack: ["WordPress", "PHP", "JavaScript", "CSS/SASS", "WooCommerce"],
     gallery: {
       layout: "masonry",
@@ -214,8 +231,9 @@ export const projects: Project[] = [
   {
     label: "Personal Finance Application",
     title: "Personal Accountant",
-    description:
+    description: [
       "A personal finance application built from scratch with Python and SQLite, later expanded into an Android application with cloud-based data synchronization.",
+    ],
     stack: ["Python", "PySide6", "SQLite", "Kivy", "Buildozer"],
     gallery: {
       layout: "single",
