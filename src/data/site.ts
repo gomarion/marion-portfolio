@@ -2,7 +2,7 @@ export const site = {
   name: "Marion Go",
   tagline: "Web Developer. Builder. Problem Solver.",
   description:
-    "I have 15+ years of experience building, maintaining, and improving websites across WordPress, Shopify, Ghost, JavaScript, and modern web technologies.",
+    "For 15+ years, I’ve been turning ideas into websites—from custom themes and integrations to full web applications, across WordPress, Shopify, Ghost, and JavaScript.",
   email: "gomarionarciaga@gmail.com",
   copyrightStartYear: 2012,
 } as const;
