@@ -15,8 +15,7 @@ export function CurrentlyExploring() {
     <section className="mx-auto w-full max-w-204">
       <SectionHeading>Currently Exploring</SectionHeading>
       <p className="mt-5 text-body">
-        After years of working primarily with CMS-driven websites, I&apos;m
-        expanding my toolkit into modern JavaScript development.
+        Building on years of experience developing for the web, I'm expanding my toolkit into modern application development and exploring new ways to build with JavaScript.
       </p>
       <TechStack items={exploring} className="mt-7" />
     </section>
