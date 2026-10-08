@@ -4,7 +4,7 @@ export const site = {
   description:
     "For 15+ years, I’ve been turning ideas into websites—from custom themes and integrations to full web applications, across WordPress, Shopify, Ghost, and JavaScript.",
   email: "gomarionarciaga@gmail.com",
-  copyrightStartYear: 2012,
+  copyrightStartYear: 2026,
 } as const;
 
 export const navItems = [
