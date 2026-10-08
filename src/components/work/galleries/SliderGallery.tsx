@@ -245,7 +245,9 @@ export function SliderGallery({ images, label }: SliderGalleryProps) {
             aria-label={`Show slide ${index + 1}`}
             aria-current={index === active}
             className={`size-2 rounded-full transition-colors ${
-              index === active ? "bg-ink" : "bg-mute hover:bg-ink/40"
+              index === active
+                ? "bg-ink"
+                : "cursor-pointer bg-mute hover:bg-ink/40"
             }`}
           />
         ))}
