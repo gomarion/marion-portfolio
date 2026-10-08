@@ -11,7 +11,7 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <h2
-      className={`font-mono text-[1.875rem] leading-normal font-bold tracking-design sm:text-section-title ${className}`}
+      className={`font-code text-[2.109375rem] leading-normal font-bold tracking-design sm:text-section-title ${className}`}
     >
       {children}
     </h2>
