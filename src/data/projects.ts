@@ -53,13 +53,11 @@ const shopify = (file: string, alt: string, height = 989): ProjectImage => ({
 export const projects: Project[] = [
   {
     label: "Shopify",
-    title: "Custom Shopify Theme",
+    title: "Shopify Themes",
     description: [
-      "A custom Shopify theme based on ",
+      "A collection of custom Shopify themes based on ",
       { text: "Dawn", href: "https://github.com/shopify/dawn" },
-      ", developed with the goal of submitting it to the ",
-      { text: "Shopify Theme Store", href: "https://themes.shopify.com/" },
-      ".",
+      ", developed for a range of storefront styles, including the multi-style En Vogue theme and Savoir Faire theme.",
     ],
     stack: ["Shopify", "Liquid", "JavaScript", "HTML", "CSS/SASS"],
     gallery: {
@@ -144,9 +142,9 @@ export const projects: Project[] = [
     description: [
       "A collection of commercial ",
       { text: "Tumblr themes", href: "https://www.tumblr.com/themes/" },
-      " developed for a diverse audience, combining responsive design, customization, and reusable frontend architecture.",
+      " combining responsive design, customization, and reusable frontend architecture.",
     ],
-    stack: ["Tumblr", "HTML", "CSS/SASS", "JavaScript", "Responsive Design"],
+    stack: ["Tumblr", "HTML", "CSS/SASS", "JavaScript"],
     gallery: {
       layout: "tiles",
       tiles: [
@@ -229,7 +227,7 @@ export const projects: Project[] = [
     },
   },
   {
-    label: "Personal Finance Application",
+    label: "Personal Project",
     title: "Personal Accountant",
     description: [
       "A personal finance application built from scratch with Python and SQLite, later expanded into an Android application with cloud-based data synchronization.",
