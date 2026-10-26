@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { RichTextContent } from "@/components/ui/RichTextContent";
 import { TechStack } from "@/components/ui/TechStack";
 import type { Project } from "@/data/projects";
@@ -9,7 +10,8 @@ type ProjectEntryProps = {
 };
 
 // Figma project block: label, title + description, stack (30px apart), then
-// the gallery 50px below. Fills the 980px Work panel.
+// the gallery 50px below. Fills the 980px Work panel. Projects with a case
+// study get a link to it 50px under the gallery.
 export function ProjectEntry({ project, number }: ProjectEntryProps) {
   const index = String(number).padStart(2, "0");
 
@@ -30,6 +32,16 @@ export function ProjectEntry({ project, number }: ProjectEntryProps) {
       <div className="mt-12.5">
         <ProjectMedia gallery={project.gallery} label={project.title} />
       </div>
+      {project.caseStudy && (
+        <p className="mt-12.5">
+          <Link
+            href={`/work/${project.caseStudy}`}
+            className="text-body-sm underline underline-offset-4 transition-opacity hover:opacity-60"
+          >
+            View case study
+          </Link>
+        </p>
+      )}
     </article>
   );
 }

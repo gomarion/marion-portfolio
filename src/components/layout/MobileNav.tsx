@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { navItems } from "@/data/site";
+import { navHref, navItems } from "@/data/site";
 
 // The Figma file is desktop-only; below `lg` the nav collapses into this menu.
-export function MobileNav() {
+export function MobileNav({ onHome }: { onHome: boolean }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export function MobileNav() {
           {navItems.map((item) => (
             <li key={item.href}>
               <a
-                href={item.href}
+                href={navHref(item.href, onHome)}
                 onClick={() => setOpen(false)}
                 className="block py-3 text-nav uppercase"
               >

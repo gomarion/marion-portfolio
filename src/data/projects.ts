@@ -41,6 +41,8 @@ export type Project = {
   description: RichText;
   stack: string[];
   gallery: ProjectGallery;
+  // Slug of the project's case study page (/work/<slug>), if it has one.
+  caseStudy?: string;
 };
 
 const shopify = (file: string, alt: string, height = 989): ProjectImage => ({
@@ -60,6 +62,7 @@ export const projects: Project[] = [
       ", developed for a range of storefront styles, including the multi-style En Vogue theme and Savoir Faire theme.",
     ],
     stack: ["Shopify", "Liquid", "JavaScript", "HTML", "CSS/SASS"],
+    caseStudy: "shopify",
     gallery: {
       layout: "slider",
       images: [

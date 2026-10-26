@@ -12,11 +12,13 @@ export const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-// Hero headline (bold) and tech-stack lines (light). Not a variable font.
+// Hero headline (bold), tech-stack lines (light), and on case studies the
+// watermark (extra light) and project detail values (semibold). Not a
+// variable font, so each weight is listed.
 export const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
-  weight: ["300", "700"],
+  weight: ["200", "300", "600", "700"],
 });
 
 export const fontVariables = [

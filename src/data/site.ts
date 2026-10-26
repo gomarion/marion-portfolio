@@ -15,6 +15,13 @@ export const navItems = [
   { label: "Contact", href: "#contact" },
 ] as const;
 
+// Nav items point at homepage sections. On subpages they need a "/" in
+// front, and "Home" goes to the homepage itself.
+export function navHref(href: string, onHome: boolean) {
+  if (onHome) return href;
+  return href === "#top" ? "/" : `/${href}`;
+}
+
 export const socialLinks = [
   {
     label: "LinkedIn",
