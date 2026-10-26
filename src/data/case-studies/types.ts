@@ -3,8 +3,9 @@ import type { ProjectImage, RichText } from "@/data/projects";
 // Media shown under a case-file section's text. New layouts for the other
 // case studies get added here as extra `type`s.
 export type CaseMedia =
-  // A full-width screenshot.
-  | { type: "image"; image: ProjectImage }
+  // A full-width screenshot. With `zoom`, hovering shows a round magnifying
+  // lens that follows the cursor.
+  | { type: "image"; image: ProjectImage; zoom?: boolean }
   // A video slot. Until `src` is set it shows the poster as a still image.
   | { type: "video"; poster: ProjectImage; src?: string }
   // Equal columns, each with a title, a tall screenshot and a caption. A card

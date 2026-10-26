@@ -124,6 +124,7 @@ export const shopify: CaseStudy = {
               "envogue-theme-settings.webp",
               "Shopify theme editor with badge and button color settings beside a retro featured products grid",
             ),
+            zoom: true,
           },
         },
         {
@@ -137,6 +138,7 @@ export const shopify: CaseStudy = {
               "envogue-section-settings.webp",
               "Shopify theme editor with featured collections grid settings beside an “On Sale” collections layout",
             ),
+            zoom: true,
           },
         },
         {
@@ -150,6 +152,7 @@ export const shopify: CaseStudy = {
               "envogue-liquid-code.webp",
               "Code editor showing the Liquid template for the featured collections section",
             ),
+            zoom: true,
           },
         },
         {
