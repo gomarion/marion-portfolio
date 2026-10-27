@@ -1,19 +1,16 @@
 import type { CaseFile as CaseFileData } from "@/data/case-studies";
 import { CaseSection } from "./CaseSection";
 
-type CaseFileProps = {
-  file: CaseFileData;
-  number: number;
-};
-
 // Figma "Case Study file" (259:53): a grey panel styled as a paper case file,
 // with 100px padding, 80px between blocks, a repeated-name watermark across
 // the top, a staple at the top-left and a folded corner on the right.
-export function CaseFile({ file, number }: CaseFileProps) {
-  const index = String(number).padStart(3, "0");
-  // Enough repeats to fill the watermark's 7 lines at any width; the rest is
-  // clipped.
-  const watermark = Array.from({ length: 60 }, () => file.name).join(" · ");
+export function CaseFile({ file }: { file: CaseFileData }) {
+  // The case file's name repeated across the top (60 times unless the data
+  // sets `watermarkRepeats`). Anything past 7 lines is clipped.
+  const watermark = Array.from(
+    { length: file.watermarkRepeats ?? 60 },
+    () => file.name,
+  ).join(" · ");
 
   return (
     <article
@@ -23,6 +20,9 @@ export function CaseFile({ file, number }: CaseFileProps) {
     >
       <p
         aria-hidden
+        style={
+          file.watermarkWidth ? { width: file.watermarkWidth } : undefined
+        }
         className="pointer-events-none absolute top-7.25 -left-5.5 max-h-[calc(7*1.3em)] w-[calc(100%+3.75rem)] overflow-hidden font-code text-[1.1875rem] leading-[1.3] font-extralight text-ink/13 uppercase select-none"
       >
         {watermark}
@@ -32,7 +32,7 @@ export function CaseFile({ file, number }: CaseFileProps) {
 
       <div className="relative flex flex-col gap-14 lg:gap-20">
         <h2 className="text-lead font-semibold uppercase">
-          Case file #{index}: {file.name}
+          Case file #{file.number}: {file.name}
         </h2>
 
         <div className="flex flex-col gap-5">
@@ -49,24 +49,24 @@ export function CaseFile({ file, number }: CaseFileProps) {
           </dl>
         </div>
 
-        {file.sections.map((section, i) => (
-          <CaseSection key={section.title} section={section} first={i === 0} />
+        {file.sections.map((section) => (
+          <CaseSection key={section.title} section={section} />
         ))}
       </div>
     </article>
   );
 }
 
-// Figma "Staple" (335:1038): two 43×5.7px bars with 2px corners, 7.5px apart,
-// tilted 37.7° up to the right from (33, 102).
+// Figma "Staple" (335:1034): two 43×5.7px bars with 2px corners, 7.5px apart,
+// tilted 37.7° up to the right from (33, 102), with a soft grey glow.
 function Staple() {
   return (
     <div
       aria-hidden
       className="absolute top-[102.28px] left-8.25 h-[5.68px] w-[93.65px] origin-top-left -rotate-[37.7deg]"
     >
-      <span className="absolute inset-y-0 left-0 w-[43.1px] rounded-[2px] bg-ink" />
-      <span className="absolute inset-y-0 left-[50.55px] w-[43.1px] rounded-[2px] bg-ink" />
+      <span className="absolute inset-y-0 left-0 w-[43.1px] rounded-[2px] bg-ink shadow-[0_0_4px_1px_rgb(93_90_90)]" />
+      <span className="absolute inset-y-0 left-[50.55px] w-[43.1px] rounded-[2px] bg-ink shadow-[0_0_4px_1px_rgb(93_90_90)]" />
     </div>
   );
 }

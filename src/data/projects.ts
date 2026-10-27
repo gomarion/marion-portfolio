@@ -115,6 +115,7 @@ export const projects: Project[] = [
       " theme built with a focus on typography, responsive layouts, and a flexible publishing experience.",
     ],
     stack: ["Ghost", "Handlebars", "HTML", "CSS/SASS", "JavaScript"],
+    caseStudy: "ghost",
     gallery: {
       layout: "collage",
       images: {

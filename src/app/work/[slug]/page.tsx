@@ -66,8 +66,8 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
                   <RichTextContent content={study.intro} />
                 </p>
               </div>
-              {study.files.map((file, index) => (
-                <CaseFile key={file.name} file={file} number={index + 1} />
+              {study.files.map((file) => (
+                <CaseFile key={file.name} file={file} />
               ))}
             </div>
           </article>

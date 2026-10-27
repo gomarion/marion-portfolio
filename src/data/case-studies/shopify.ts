@@ -33,11 +33,14 @@ export const shopify: CaseStudy = {
   files: [
     {
       name: "En Vogue",
+      watermarkRepeats: 63,
+      number: "001",
       details: details("Development Project"),
       fold: "top",
       sections: [
         {
           title: "Built for flexibility",
+          mediaGap: 30,
           body: [
             "En Vogue combined reusable storefront sections with granular theme settings, giving merchants control over their storefront's visual identity and layout without custom development for every change.",
           ],
@@ -165,11 +168,14 @@ export const shopify: CaseStudy = {
     },
     {
       name: "Savoir Faire",
+      watermarkRepeats: 46,
+      number: "002",
       details: details("Development Paused"),
       fold: "bottom",
       sections: [
         {
           title: "A bold, immersive storefront experience.",
+          mediaGap: 30,
           body: [
             "Savoir Faire explored a more experimental visual direction, pairing neon-lit imagery and dark, high-contrast layouts with flexible product grids, featured collections, and editorial content.",
           ],
