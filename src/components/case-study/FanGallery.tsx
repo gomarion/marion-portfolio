@@ -12,9 +12,10 @@ type Items = Extract<CaseMedia, { type: "fan" }>["items"];
 // picture on smaller screens.
 //
 // Each sheet is a button that opens its full page in the lightbox, which can
-// step between all of them. On hover or keyboard focus a sheet comes to the
-// front, grows slightly and casts a shadow. Closing returns focus to the last
-// sheet shown.
+// step between all of them. Each sheet casts a soft shadow, like paper in a
+// stack (not in Figma). On hover or keyboard focus a sheet comes to the
+// front, grows slightly and its shadow deepens. Closing returns focus to the
+// last sheet shown.
 export function FanGallery({ items }: { items: Items }) {
   const triggerRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [current, setCurrent] = useState<number | null>(null);
@@ -42,7 +43,7 @@ export function FanGallery({ items }: { items: Items }) {
               top: `${item.top}%`,
               rotate: `${item.rotate}deg`,
             }}
-            className="absolute block h-[88.8%] w-[32.08%] cursor-zoom-in transition-[scale,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] outline-offset-4 hover:z-10 hover:shadow-[0_12px_32px_rgb(0_0_0/0.3)] focus-visible:z-10 focus-visible:shadow-[0_12px_32px_rgb(0_0_0/0.3)] focus-visible:outline-2 focus-visible:outline-ink motion-safe:hover:scale-103 motion-safe:focus-visible:scale-103"
+            className="absolute block h-[88.8%] w-[32.08%] cursor-zoom-in shadow-[0_1px_3px_rgb(0_0_0/0.12),0_8px_24px_rgb(0_0_0/0.16)] transition-[scale,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] outline-offset-4 hover:z-10 hover:shadow-[0_4px_10px_rgb(0_0_0/0.14),0_22px_48px_rgb(0_0_0/0.3)] focus-visible:z-10 focus-visible:shadow-[0_4px_10px_rgb(0_0_0/0.14),0_22px_48px_rgb(0_0_0/0.3)] focus-visible:outline-2 focus-visible:outline-ink motion-safe:hover:scale-103 motion-safe:focus-visible:scale-103"
           >
             <Image
               src={item.image.src}
