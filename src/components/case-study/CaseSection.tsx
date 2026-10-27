@@ -2,7 +2,9 @@ import { RichTextContent } from "@/components/ui/RichTextContent";
 import type {
   CaseSection as CaseSectionData,
   CaseSubsection,
+  CaseText,
 } from "@/data/case-studies";
+import type { RichText } from "@/data/projects";
 import { CaseMedia } from "./CaseMedia";
 
 // Figma section block: uppercase heading, body 30px below, then media 50px
@@ -12,11 +14,7 @@ export function CaseSection({ section }: { section: CaseSectionData }) {
   return (
     <section>
       <h3 className="text-lead font-semibold uppercase">{section.title}</h3>
-      {section.body && (
-        <p className="mt-7.5 text-body-sm">
-          <RichTextContent content={section.body} />
-        </p>
-      )}
+      {section.body && <Paragraphs text={section.body} className="mt-7.5" />}
       {section.media && (
         <div className={section.mediaGap === 30 ? "mt-7.5" : "mt-12.5"}>
           <CaseMedia media={section.media} />
@@ -41,14 +39,35 @@ function Subsection({ subsection }: { subsection: CaseSubsection }) {
       <h4 className="text-body-sm font-semibold uppercase">
         {subsection.title}
       </h4>
-      <p className="mt-3.75 text-body-sm">
-        <RichTextContent content={subsection.body} />
-      </p>
+      <Paragraphs text={subsection.body} className="mt-3.75" />
       {subsection.media && (
         <div className="mt-3.75">
           <CaseMedia media={subsection.media} />
         </div>
       )}
+    </div>
+  );
+}
+
+// One paragraph, or several with a blank line (24px) between them.
+function Paragraphs({
+  text,
+  className,
+}: {
+  text: CaseText;
+  className: string;
+}) {
+  const paragraphs = Array.isArray(text[0])
+    ? (text as RichText[])
+    : [text as RichText];
+
+  return (
+    <div className={`flex flex-col gap-6 text-body-sm ${className}`}>
+      {paragraphs.map((paragraph, index) => (
+        <p key={index}>
+          <RichTextContent content={paragraph} />
+        </p>
+      ))}
     </div>
   );
 }

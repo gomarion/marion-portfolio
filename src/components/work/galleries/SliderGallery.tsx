@@ -16,6 +16,9 @@ import type { ProjectImage } from "@/data/projects";
 type SliderGalleryProps = {
   images: ProjectImage[];
   label: string;
+  // Slide shape and image `sizes`; the defaults fit the homepage's 980×510.
+  aspectRatio?: string;
+  sizes?: string;
 };
 
 const AUTOPLAY_MS = 5000;
@@ -59,7 +62,12 @@ function scrollToSlide(
 // off entirely for reduced-motion users. Going forward from the last slide —
 // touch swipe, trackpad swipe or the right arrow key — rewinds to the first.
 // Each slide is a hard snap stop, so a fast swipe moves one slide at a time.
-export function SliderGallery({ images, label }: SliderGalleryProps) {
+export function SliderGallery({
+  images,
+  label,
+  aspectRatio = "980 / 510",
+  sizes = "(min-width: 1280px) 980px, 100vw",
+}: SliderGalleryProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const touchStartRef = useRef<{ x: number; y: number; atEnd: boolean }>(null);
@@ -218,13 +226,14 @@ export function SliderGallery({ images, label }: SliderGalleryProps) {
               role="group"
               aria-roledescription="slide"
               aria-label={`${index + 1} of ${images.length}`}
-              className="relative aspect-980/510 w-full shrink-0 snap-start snap-always"
+              className="relative w-full shrink-0 snap-start snap-always"
+              style={{ aspectRatio }}
             >
               <Image
                 src={image.src}
                 alt={image.alt}
                 fill
-                sizes="(min-width: 1280px) 980px, 100vw"
+                sizes={sizes}
                 className="object-cover"
               />
             </div>

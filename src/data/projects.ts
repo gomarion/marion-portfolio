@@ -149,6 +149,7 @@ export const projects: Project[] = [
       " combining responsive design, customization, and reusable frontend architecture.",
     ],
     stack: ["Tumblr", "HTML", "CSS/SASS", "JavaScript"],
+    caseStudy: "tumblr",
     gallery: {
       layout: "tiles",
       tiles: [

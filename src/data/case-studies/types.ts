@@ -6,9 +6,16 @@ export type CaseMedia =
   // A full-width screenshot. With `zoom`, hovering shows a round magnifying
   // lens that follows the cursor.
   | { type: "image"; image: ProjectImage; zoom?: boolean }
-  // A video slot. Until `src` is set it shows the poster as a still image;
-  // the caption only appears once there's a video.
-  | { type: "video"; poster: ProjectImage; src?: string; caption?: string }
+  // A video slot. Until `src` or `youtube` is set it shows the poster as a
+  // still image; the caption only appears once there's a video. `youtube` is
+  // a YouTube video ID: the poster becomes a button that loads the player.
+  | {
+      type: "video";
+      poster: ProjectImage;
+      src?: string;
+      youtube?: string;
+      caption?: string;
+    }
   // Equal columns, each with a title, a tall screenshot and a caption. A card
   // with a `full` image opens it in a lightbox when the screenshot is clicked.
   | {
@@ -39,18 +46,40 @@ export type CaseMedia =
         image: ProjectImage;
         full: ProjectImage;
       }[];
-    };
+    }
+  // Page screenshots fanned out like sheets of paper, each opening its `full`
+  // page in a lightbox. `left`/`top` place a sheet's unrotated box as % of
+  // the 1080×946 frame, and `rotate` (degrees, clockwise) turns it around its
+  // centre. Later items sit on top.
+  | {
+      type: "fan";
+      items: {
+        title: string;
+        label: string;
+        image: ProjectImage;
+        full: ProjectImage;
+        left: number;
+        top: number;
+        rotate: number;
+      }[];
+    }
+  // A carousel like the homepage one, with dots below. `label` names it for
+  // screen readers.
+  | { type: "slider"; label: string; images: ProjectImage[] };
+
+// Body text: one paragraph, or several (24px apart).
+export type CaseText = RichText | RichText[];
 
 // A smaller heading inside a section, with its own text and media.
 export type CaseSubsection = {
   title: string;
-  body: RichText;
+  body: CaseText;
   media?: CaseMedia;
 };
 
 export type CaseSection = {
   title: string;
-  body?: RichText;
+  body?: CaseText;
   media?: CaseMedia;
   // Space between the text and the media, in px (default 50).
   mediaGap?: 30 | 50;
@@ -68,6 +97,9 @@ export type CaseFile = {
   // (Shopify 001, Ghost 1001, …).
   number: string;
   details: { label: string; value: string }[];
+  // Project details in 400:610 columns across the full width, for values too
+  // long for the default two even columns (996px wide).
+  wideDetails?: boolean;
   // Corner of the panel that has the folded page.
   fold: "top" | "bottom";
   sections: CaseSection[];

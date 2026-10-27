@@ -37,7 +37,13 @@ export function CaseFile({ file }: { file: CaseFileData }) {
 
         <div className="flex flex-col gap-5">
           <h3 className="text-lead font-semibold uppercase">Project details</h3>
-          <dl className="grid max-w-249 gap-x-17.5 gap-y-6 sm:grid-cols-2 sm:gap-y-10">
+          <dl
+            className={`grid gap-x-17.5 gap-y-6 sm:gap-y-10 ${
+              file.wideDetails
+                ? "sm:grid-cols-[400fr_610fr]"
+                : "max-w-249 sm:grid-cols-2"
+            }`}
+          >
             {file.details.map((detail) => (
               <div key={detail.label}>
                 <dt className="text-body-sm text-subtle">{detail.label}</dt>
