@@ -9,6 +9,7 @@ import { Highlights } from "./Highlights";
 import { LensImage } from "./LensImage";
 import { MediaGrid, gridSizes } from "./MediaGrid";
 import { PreviewGallery } from "./PreviewGallery";
+import { SpheresDemo } from "./SpheresDemo";
 import { YouTubeEmbed } from "./YouTubeEmbed";
 
 // Full width of the case file content column (1080px on desktop).
@@ -45,6 +46,17 @@ export function CaseMedia({ media }: { media: CaseMediaData }) {
             ),
           )}
         </MediaGrid>
+      );
+    case "spheres":
+      return (
+        <figure>
+          <SpheresDemo
+            label={media.label}
+            spheres={media.spheres}
+            bubbles={media.bubbles}
+          />
+          {media.caption && <Caption text={media.caption} />}
+        </figure>
       );
     case "highlights":
       return <Highlights items={media.items} />;

@@ -26,6 +26,16 @@ export type CaseMedia =
       layout?: GridLayout;
       items: { image: ProjectImage; zoom?: boolean }[];
     }
+  // A rebuild of the Linked Spheres and Image Bubbles WordPress plugins: 5
+  // labelled spheres that reveal their `image` on hover, beside 3 photo
+  // bubbles that shift on hover. `label` names the demo for screen readers.
+  | {
+      type: "spheres";
+      label: string;
+      spheres: { label: string; image?: ProjectImage }[];
+      bubbles: [ProjectImage, ProjectImage, ProjectImage];
+      caption?: string;
+    }
   // A row of icons with short labels, three across.
   | { type: "highlights"; items: { icon: HighlightIcon; label: string }[] }
   // A video slot. Until `src` or `youtube` is set it shows the poster as a

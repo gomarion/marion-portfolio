@@ -112,15 +112,78 @@ export const wordpress: CaseStudy = {
               "I implemented both features through custom WordPress plugins, extending the site's functionality beyond its child theme's templates and styling.",
             ],
           ],
-          // Figma "Group 49" (412:180).
+          // Figma "Group 49" (412:180), rebuilt from the WordPress plugins.
           media: {
-            type: "image",
-            image: image(
-              "wp-components.webp",
-              "Spheres and Bubbles on the portfolio homepage: a row of round keyword links (Running, Coding, Portfolio, Résumé, Journal) beside three overlapping round photos",
-              1920,
-              542,
-            ),
+            type: "spheres",
+            label:
+              "Spheres and Bubbles demo: keyword spheres that reveal a photo on hover, beside three overlapping photo bubbles",
+            spheres: [
+              {
+                label: "Running",
+                image: image(
+                  "wp-sphere-running.webp",
+                  "A runner on a hilltop",
+                  240,
+                  240,
+                ),
+              },
+              {
+                label: "Coding",
+                image: image(
+                  "wp-sphere-coding.webp",
+                  "Code on a dark screen",
+                  240,
+                  240,
+                ),
+              },
+              {
+                label: "Portfolio",
+                image: image(
+                  "wp-sphere-portfolio.webp",
+                  "Watercolour wireframe sketches of web pages",
+                  240,
+                  240,
+                ),
+              },
+              {
+                label: "Résumé",
+                image: image(
+                  "wp-sphere-resume.webp",
+                  "Hands holding a printed résumé",
+                  240,
+                  240,
+                ),
+              },
+              {
+                label: "Journal",
+                image: image(
+                  "wp-sphere-journal.webp",
+                  "An open notebook and e-reader on a rock",
+                  240,
+                  240,
+                ),
+              },
+            ],
+            bubbles: [
+              image(
+                "wp-bubble-1.webp",
+                "A hiker in a yellow jacket looking out over a misty lake",
+                340,
+                340,
+              ),
+              image(
+                "wp-bubble-2.webp",
+                "Portrait of a woman in a black top",
+                340,
+                340,
+              ),
+              image(
+                "wp-bubble-3.webp",
+                "Two longboarders riding down a mountain road",
+                340,
+                340,
+              ),
+            ],
             caption:
               "Hover over a sphere to reveal its image, and explore the overlapping bubbles to see their movement.",
           },

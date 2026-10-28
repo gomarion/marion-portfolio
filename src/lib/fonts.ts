@@ -1,4 +1,9 @@
-import { IBM_Plex_Mono, Inter, JetBrains_Mono } from "next/font/google";
+import {
+  IBM_Plex_Mono,
+  Inter,
+  JetBrains_Mono,
+  Open_Sans,
+} from "next/font/google";
 
 // Body copy, navigation, labels and buttons.
 export const inter = Inter({
@@ -20,6 +25,14 @@ export const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
   weight: ["200", "300", "400", "600", "700"],
+});
+
+// Only for the WordPress case study's Spheres demo, matching the live site.
+// Not preloaded, so other pages don't download it.
+export const openSans = Open_Sans({
+  subsets: ["latin"],
+  weight: "400",
+  preload: false,
 });
 
 export const fontVariables = [
