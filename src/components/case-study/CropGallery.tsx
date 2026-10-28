@@ -2,15 +2,23 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import type { CaseMedia } from "@/data/case-studies";
+import type { CaseMedia, GridLayout } from "@/data/case-studies";
 import { LIGHTBOX_TRIGGER_CLASSES, Lightbox } from "./Lightbox";
+import { MediaGrid, gridSizes } from "./MediaGrid";
 
 type Items = Extract<CaseMedia, { type: "gallery" }>["items"];
 
 // Figma "Frame 32" (335:820): crops of different pages in 2 columns, 30px
-// apart. Each crop is a button that opens its full page in the lightbox,
-// which can step between them. Closing returns focus to the last one shown.
-export function CropGallery({ items }: { items: Items }) {
+// apart (or as `layout` arranges them). Each crop is a button that opens its
+// full page in the lightbox, which can step between them. Closing returns
+// focus to the last one shown.
+export function CropGallery({
+  items,
+  layout,
+}: {
+  items: Items;
+  layout?: GridLayout;
+}) {
   const triggerRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [current, setCurrent] = useState<number | null>(null);
 
@@ -21,7 +29,7 @@ export function CropGallery({ items }: { items: Items }) {
 
   return (
     <>
-      <div className="grid gap-7.5 sm:grid-cols-2">
+      <MediaGrid layout={layout}>
         {items.map((item, index) => (
           <button
             key={item.image.src}
@@ -39,12 +47,12 @@ export function CropGallery({ items }: { items: Items }) {
               alt={item.image.alt}
               width={item.image.width}
               height={item.image.height}
-              sizes="(min-width: 1280px) 525px, (min-width: 640px) 50vw, 100vw"
+              sizes={gridSizes(layout, index)}
               className="h-auto w-full"
             />
           </button>
         ))}
-      </div>
+      </MediaGrid>
 
       <Lightbox
         items={items.map((item) => ({ title: item.title, image: item.full }))}

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { CaseFile as CaseFileData } from "@/data/case-studies";
 import { CaseSection } from "./CaseSection";
 
@@ -11,6 +12,7 @@ export function CaseFile({ file }: { file: CaseFileData }) {
     { length: file.watermarkRepeats ?? 60 },
     () => file.name,
   ).join(" · ");
+  const columns = file.detailColumns;
 
   return (
     <article
@@ -32,16 +34,23 @@ export function CaseFile({ file }: { file: CaseFileData }) {
 
       <div className="relative flex flex-col gap-14 lg:gap-20">
         <h2 className="text-lead font-semibold uppercase">
-          Case file #{file.number}: {file.name}
+          Case file #{file.number}: {file.title ?? file.name}
         </h2>
 
         <div className="flex flex-col gap-5">
           <h3 className="text-lead font-semibold uppercase">Project details</h3>
           <dl
-            className={`grid gap-x-17.5 gap-y-6 sm:gap-y-10 ${
-              file.wideDetails
-                ? "sm:grid-cols-[400fr_610fr]"
-                : "max-w-249 sm:grid-cols-2"
+            style={
+              columns &&
+              ({
+                "--details-cols": `${columns.left}fr ${columns.right}fr`,
+                "--details-gap": `${columns.gap}px`,
+              } as CSSProperties)
+            }
+            className={`grid gap-y-6 sm:gap-y-10 ${
+              columns
+                ? "gap-x-(--details-gap) sm:grid-cols-(--details-cols)"
+                : "max-w-249 gap-x-17.5 sm:grid-cols-2"
             }`}
           >
             {file.details.map((detail) => (

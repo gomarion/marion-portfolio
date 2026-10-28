@@ -64,7 +64,7 @@ export const tumblr: CaseStudy = {
           value: "HTML, CSS/SASS, JavaScript, Git, Webpack, Vite",
         },
       ],
-      wideDetails: true,
+      detailColumns: { left: 400, right: 610, gap: 70 },
       fold: "top",
       sections: [
         {
@@ -159,7 +159,7 @@ export const tumblr: CaseStudy = {
         { label: "Focus", value: "Editorial & Photography" },
         { label: "Technologies", value: "HTML, CSS/SASS, JavaScript" },
       ],
-      wideDetails: true,
+      detailColumns: { left: 400, right: 610, gap: 70 },
       fold: "top",
       sections: [
         {

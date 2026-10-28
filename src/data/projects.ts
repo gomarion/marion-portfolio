@@ -203,6 +203,7 @@ export const projects: Project[] = [
       " websites, from bespoke themes and block-based experiences to WooCommerce and API integrations.",
     ],
     stack: ["WordPress", "PHP", "JavaScript", "CSS/SASS", "WooCommerce"],
+    caseStudy: "wordpress",
     gallery: {
       layout: "masonry",
       columns: [

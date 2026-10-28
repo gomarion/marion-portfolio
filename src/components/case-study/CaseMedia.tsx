@@ -5,7 +5,9 @@ import { SliderGallery } from "@/components/work/galleries/SliderGallery";
 import { CardGallery } from "./CardGallery";
 import { CropGallery } from "./CropGallery";
 import { FanGallery } from "./FanGallery";
+import { Highlights } from "./Highlights";
 import { LensImage } from "./LensImage";
+import { MediaGrid, gridSizes } from "./MediaGrid";
 import { PreviewGallery } from "./PreviewGallery";
 import { YouTubeEmbed } from "./YouTubeEmbed";
 
@@ -14,12 +16,38 @@ const FULL_WIDTH = "(min-width: 1280px) 1080px, 100vw";
 
 export function CaseMedia({ media }: { media: CaseMediaData }) {
   switch (media.type) {
-    case "image":
-      return media.zoom ? (
+    case "image": {
+      const image = media.zoom ? (
         <LensImage image={media.image} />
       ) : (
         <FullImage image={media.image} />
       );
+      if (!media.caption) return image;
+      return (
+        <figure>
+          {image}
+          <Caption text={media.caption} />
+        </figure>
+      );
+    }
+    case "images":
+      return (
+        <MediaGrid layout={media.layout}>
+          {media.items.map((item, index) =>
+            item.zoom ? (
+              <LensImage key={item.image.src} image={item.image} />
+            ) : (
+              <FullImage
+                key={item.image.src}
+                image={item.image}
+                sizes={gridSizes(media.layout, index)}
+              />
+            ),
+          )}
+        </MediaGrid>
+      );
+    case "highlights":
+      return <Highlights items={media.items} />;
     case "video":
       // No video yet: show the poster as a still image.
       if (!media.src && !media.youtube)
@@ -43,18 +71,13 @@ export function CaseMedia({ media }: { media: CaseMediaData }) {
               <source src={media.src} />
             </video>
           )}
-          {/* Figma (336:1223): Inter Light Italic 14, 10px below. */}
-          {media.caption && (
-            <figcaption className="mt-2.5 text-[0.875rem] leading-[1.5] font-light tracking-design text-caption italic">
-              {media.caption}
-            </figcaption>
-          )}
+          {media.caption && <Caption text={media.caption} />}
         </figure>
       );
     case "cards":
       return <CardGallery cards={media.cards} />;
     case "gallery":
-      return <CropGallery items={media.items} />;
+      return <CropGallery items={media.items} layout={media.layout} />;
     case "fan":
       return <FanGallery items={media.items} />;
     case "slider":
@@ -77,14 +100,29 @@ export function CaseMedia({ media }: { media: CaseMediaData }) {
   }
 }
 
-function FullImage({ image }: { image: ProjectImage }) {
+// Figma (336:1223): Inter Light Italic 14, 10px below the media.
+function Caption({ text }: { text: string }) {
+  return (
+    <figcaption className="mt-2.5 text-[0.875rem] leading-[1.5] font-light tracking-design text-caption italic">
+      {text}
+    </figcaption>
+  );
+}
+
+function FullImage({
+  image,
+  sizes = FULL_WIDTH,
+}: {
+  image: ProjectImage;
+  sizes?: string;
+}) {
   return (
     <Image
       src={image.src}
       alt={image.alt}
       width={image.width}
       height={image.height}
-      sizes={FULL_WIDTH}
+      sizes={sizes}
       className="h-auto w-full"
     />
   );
