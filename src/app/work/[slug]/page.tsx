@@ -59,10 +59,12 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
             </SectionHeading>
             <div className="mt-8.75 flex flex-col gap-11.25">
               <div>
-                <h2 className="text-lead font-semibold uppercase">
-                  {study.subtitle}
-                </h2>
-                <p className="mt-3.75 text-body-sm">
+                {study.subtitle && (
+                  <h2 className="mb-3.75 text-lead font-semibold uppercase">
+                    {study.subtitle}
+                  </h2>
+                )}
+                <p className="text-body-sm">
                   <RichTextContent content={study.intro} />
                 </p>
               </div>

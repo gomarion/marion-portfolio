@@ -239,6 +239,7 @@ export const projects: Project[] = [
       "A personal finance application built from scratch with Python and SQLite, later expanded into an Android application with cloud-based data synchronization.",
     ],
     stack: ["Python", "PySide6", "SQLite", "Kivy", "Buildozer"],
+    caseStudy: "personal-projects",
     gallery: {
       layout: "single",
       image: {

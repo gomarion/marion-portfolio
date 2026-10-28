@@ -3,28 +3,59 @@ import type { ProjectImage, RichText } from "@/data/projects";
 // How a grid of images is arranged from 640px up (one column below that).
 // `featured` makes the first image span the full width; `columns` sets the
 // two columns' relative widths (default even); `align` lines up the images
-// in a row by their top (default) or centre.
+// in a row by their top (default) or centre. `gap` is the space between
+// images in px (default 30); `maxWidth` narrows the grid and centres it.
 export type GridLayout = {
   featured?: boolean;
   columns?: [number, number];
   align?: "start" | "center";
+  gap?: number;
+  maxWidth?: number;
 };
 
-// Icons for "highlights" media.
-export type HighlightIcon = "checklist" | "check-circle" | "wrench";
+// Icons for "highlights" and "flow" media (see CaseIcon.tsx).
+export type CaseIconName =
+  | "checklist"
+  | "check-circle"
+  | "wrench"
+  | "monitor"
+  | "arrows-up-down"
+  | "cloud"
+  | "phone";
 
 // Media shown under a case-file section's text. New layouts for the other
 // case studies get added here as extra `type`s.
 export type CaseMedia =
-  // A full-width screenshot. With `zoom`, hovering shows a round magnifying
-  // lens that follows the cursor. `caption` sits 10px below.
-  | { type: "image"; image: ProjectImage; zoom?: boolean; caption?: string }
+  // A full-width screenshot (or centred, up to `maxWidth` px). With `zoom`,
+  // hovering shows a round magnifying lens that follows the cursor.
+  // `caption` sits 10px below.
+  | {
+      type: "image";
+      image: ProjectImage;
+      zoom?: boolean;
+      caption?: string;
+      maxWidth?: number;
+    }
   // Several screenshots in a grid (see GridLayout), each optionally with the
-  // magnifying lens.
+  // magnifying lens and a caption 10px below.
   | {
       type: "images";
       layout?: GridLayout;
-      items: { image: ProjectImage; zoom?: boolean }[];
+      items: { image: ProjectImage; zoom?: boolean; caption?: string }[];
+    }
+  // A vertical diagram: outlined boxes (icon, title, detail) joined by
+  // connectors (icon and a short note), e.g. how data moves between apps.
+  | {
+      type: "flow";
+      steps: (
+        | { kind: "box"; icon: CaseIconName; title: string; detail: string }
+        | {
+            kind: "link";
+            icon: CaseIconName;
+            flip?: boolean;
+            text: string;
+          }
+      )[];
     }
   // A rebuild of the Linked Spheres and Image Bubbles WordPress plugins: 5
   // labelled spheres that reveal their `image` on hover, beside 3 photo
@@ -37,7 +68,7 @@ export type CaseMedia =
       caption?: string;
     }
   // A row of icons with short labels, three across.
-  | { type: "highlights"; items: { icon: HighlightIcon; label: string }[] }
+  | { type: "highlights"; items: { icon: CaseIconName; label: string }[] }
   // A video slot. Until `src` or `youtube` is set it shows the poster as a
   // still image; the caption only appears once there's a video. `youtube` is
   // a YouTube video ID: the poster becomes a button that loads the player.
@@ -144,7 +175,8 @@ export type CaseFile = {
 export type CaseStudy = {
   slug: string;
   title: string;
-  subtitle: string;
+  // Heading above the intro; some case studies have only the intro.
+  subtitle?: string;
   intro: RichText;
   files: CaseFile[];
 };
