@@ -11,7 +11,7 @@ type ProjectEntryProps = {
 
 // Figma project block: label, title + description, stack (30px apart), then
 // the gallery 50px below. Fills the 980px Work panel. Projects with a case
-// study get a link to it 50px under the gallery.
+// study get a link to it 50px under the gallery (35px below `sm`).
 export function ProjectEntry({ project, number }: ProjectEntryProps) {
   const index = String(number).padStart(2, "0");
 
@@ -33,7 +33,7 @@ export function ProjectEntry({ project, number }: ProjectEntryProps) {
         <ProjectMedia gallery={project.gallery} label={project.title} />
       </div>
       {project.caseStudy && (
-        <p className="mt-12.5">
+        <p className="mt-8.75 sm:mt-12.5">
           <Link
             href={`/work/${project.caseStudy}`}
             className="text-body-sm underline underline-offset-4 transition-opacity hover:opacity-60"
