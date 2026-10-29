@@ -41,15 +41,15 @@ export function MobileNav({ onHome }: { onHome: boolean }) {
         id="mobile-nav"
         aria-label="Main"
         hidden={!open}
-        className="absolute inset-x-0 top-full z-20 border-y border-line bg-paper"
+        className="absolute inset-x-0 top-full z-20 mt-3.75 border-y border-line bg-paper"
       >
-        <ul className="flex flex-col px-4 py-2 sm:px-6">
+        <ul className="flex flex-col gap-y-3.75 px-4 py-8.75 text-center sm:px-6">
           {navItems.map((item) => (
             <li key={item.href}>
               <a
                 href={navHref(item.href, onHome)}
                 onClick={() => setOpen(false)}
-                className="block py-3 text-nav uppercase"
+                className="block py-3 font-mono text-[1.3rem]/[1.5] font-semibold tracking-[7px] uppercase"
               >
                 {item.label}
               </a>
