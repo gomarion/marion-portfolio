@@ -35,13 +35,16 @@ const ICONS: Record<CaseIconName, { width: number; path: string }> = {
 };
 
 // A decorative icon, 24px tall, in the ink colour. `flip` mirrors it left
-// to right: Figma 478:331 shows the up/down arrows as ↓↑.
+// to right: Figma 478:331 shows the up/down arrows as ↓↑. `className` can
+// resize it, e.g. a smaller height with `w-auto` to keep its proportions.
 export function CaseIcon({
   name,
   flip = false,
+  className = "",
 }: {
   name: CaseIconName;
   flip?: boolean;
+  className?: string;
 }) {
   const icon = ICONS[name];
   return (
@@ -50,7 +53,7 @@ export function CaseIcon({
       viewBox={`0 0 ${icon.width} 24`}
       width={icon.width}
       height={24}
-      className={`shrink-0 fill-ink ${flip ? "-scale-x-100" : ""}`}
+      className={`shrink-0 fill-ink ${flip ? "-scale-x-100" : ""} ${className}`}
     >
       <path d={icon.path} />
     </svg>
