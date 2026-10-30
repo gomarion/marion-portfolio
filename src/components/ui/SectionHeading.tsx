@@ -5,7 +5,7 @@ type SectionHeadingProps = {
 };
 
 // Figma "Section title": JetBrains Mono Bold 40 / 1.5, 0.11em tracking.
-// Scaled to 30px below `sm`.
+// Below `sm` it shrinks to 33.75px with a 1.3 line height.
 export function SectionHeading({
   children,
   className = "",
@@ -13,7 +13,7 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <Tag
-      className={`font-code text-[2.109375rem] leading-normal font-bold tracking-design sm:text-section-title ${className}`}
+      className={`font-code text-[2.109375rem] leading-[1.3] font-bold tracking-design sm:text-section-title sm:leading-normal ${className}`}
     >
       {children}
     </Tag>
