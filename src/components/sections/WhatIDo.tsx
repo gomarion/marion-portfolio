@@ -16,7 +16,7 @@ export function WhatIDo() {
             key={service.title}
             className="-m-3.75 flex flex-col gap-2.75 rounded-[5px] p-3.75 transition-[background-color,color,box-shadow] duration-200 hover:bg-ink hover:text-paper hover:shadow-card"
           >
-            <h3 className="font-mono text-item-title">
+            <h3 className="font-mono text-item-title max-sm:text-[1.375rem]">
               <span className="block">
                 {String(index + 1).padStart(2, "0")}
               </span>
