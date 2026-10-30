@@ -114,4 +114,13 @@
     color: var(--color-ink);
     font-family: var(--font-sans);
   }
+
+  /* Phones (below `sm`): smaller body and code text. The text-body-sm and
+     text-code classes read these variables, so every use follows. */
+  @media (width < 40rem) {
+    :root {
+      --text-body-sm: 0.9375rem; /* 15px */
+      --text-code: 0.875rem; /* 14px */
+    }
+  }
 }
