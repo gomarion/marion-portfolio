@@ -8,15 +8,23 @@ import type { RichText } from "@/data/projects";
 import { CaseMedia } from "./CaseMedia";
 
 // Figma section block: uppercase heading, body 30px below, then media 50px
-// below the text (30px when the section sets `mediaGap: 30`). Subsections
-// follow 30px below the heading, 30px apart.
+// below the text (30px when the section sets `mediaGap: 30`; 35px for a
+// highlights row on phones). Subsections follow 30px below the heading,
+// 30px apart.
 export function CaseSection({ section }: { section: CaseSectionData }) {
+  const mediaMargin =
+    section.mediaGap === 30
+      ? "mt-7.5"
+      : section.media?.type === "highlights"
+        ? "mt-8.75 sm:mt-12.5"
+        : "mt-12.5";
+
   return (
     <section>
       <h3 className="text-lead font-semibold uppercase">{section.title}</h3>
       {section.body && <Paragraphs text={section.body} className="mt-7.5" />}
       {section.media && (
-        <div className={section.mediaGap === 30 ? "mt-7.5" : "mt-12.5"}>
+        <div className={mediaMargin}>
           <CaseMedia media={section.media} />
         </div>
       )}
