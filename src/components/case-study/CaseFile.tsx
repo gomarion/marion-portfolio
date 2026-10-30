@@ -16,7 +16,7 @@ export function CaseFile({ file }: { file: CaseFileData }) {
 
   return (
     <article
-      className={`relative overflow-hidden bg-panel px-5 pt-28 sm:px-10 lg:p-25 ${
+      className={`relative overflow-hidden bg-panel px-5 pt-22.5 sm:px-10 sm:pt-28 lg:p-25 ${
         file.fold === "bottom" ? "pb-28" : "pb-16"
       }`}
     >
