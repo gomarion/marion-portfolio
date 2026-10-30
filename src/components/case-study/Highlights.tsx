@@ -5,10 +5,11 @@ type Items = Extract<CaseMedia, { type: "highlights" }>["items"];
 
 // Figma "Frame 1321314393" (449:220): three columns 10px apart, each a 24px
 // icon above an IBM Plex Mono 18 label, 10px between. Stacked on phones,
-// 35px apart, where the icons are 20px tall and the labels 16px.
+// 35px apart, where the icons are 20px tall and the labels 16px. Columns
+// are 20px apart on tablets (sm to lg).
 export function Highlights({ items }: { items: Items }) {
   return (
-    <ul className="grid gap-8.75 sm:grid-cols-3 sm:gap-2.5">
+    <ul className="grid gap-8.75 sm:grid-cols-3 sm:gap-5 lg:gap-2.5">
       {items.map((item) => (
         <li
           key={item.label}
