@@ -41,7 +41,7 @@ export function MobileNav({ onHome }: { onHome: boolean }) {
         id="mobile-nav"
         aria-label="Main"
         hidden={!open}
-        className="absolute inset-x-0 top-full z-20 mt-3.75 border-y border-line bg-paper shadow-[-1px_1px_3px_1px_#0000007a] transition-[opacity,translate] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none starting:-translate-y-2 starting:opacity-0"
+        className="absolute inset-x-0 top-full z-20 mt-6 border-y border-line bg-paper shadow-[-1px_1px_3px_1px_#0000007a] transition-[opacity,translate] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none starting:-translate-y-2 starting:opacity-0"
       >
         <ul className="flex flex-col gap-y-3.75 px-4 py-8.75 text-center sm:px-6">
           {/* Each link fades and slides in 60ms after the one above it. */}
