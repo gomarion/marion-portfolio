@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${fontVariables} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
+      <body className="relative min-h-full flex flex-col">
         {children}
         <BackToTop />
       </body>
