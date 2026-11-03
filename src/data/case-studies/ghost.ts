@@ -99,6 +99,7 @@ export const ghost: CaseStudy = {
             ),
             caption:
               "A walkthrough of Incredible's layouts, navigation, and publishing features",
+            youtube: "e8PRTRFz_Yk",
           },
         },
         {

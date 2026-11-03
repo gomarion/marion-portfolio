@@ -52,6 +52,7 @@ export const shopify: CaseStudy = {
               1920,
               937,
             ),
+            youtube: "2Jq1N2-8zFQ",
           },
         },
         {
@@ -217,6 +218,7 @@ export const shopify: CaseStudy = {
               1920,
               924,
             ),
+            youtube: "Wg1KrC_7rUs",
           },
         },
         {
