@@ -7,6 +7,8 @@ import { REDUCED_MOTION, useMedia } from "@/lib/useMedia";
 
 // Two columns from `md`: the desktop sequence. Below it: the scroll spotlight.
 const TWO_COLUMNS = "(min-width: 48rem)";
+// Where hover takes over from the tap toggles (see the toggle button).
+const MOUSE_WIDE = "(hover: hover) and (min-width: 64rem)";
 
 // Desktop: the order the cards light up in, how long each stays lit, and how
 // long each fades in and out (the `duration-700` below). The fades overlap,
@@ -31,8 +33,9 @@ const FADE_MS = 700;
 // - Tablets and other two-column screens without hover: tapping an item
 //   lights it and turns any other back to default; tapping the lit item
 //   turns it off. One item at a time, and a tap during the sequence ends
-//   it. The tap target is a full-size invisible toggle button. Phones keep
-//   only the scroll spotlight.
+//   it. The tap target is a full-size invisible toggle button. Once the
+//   sequence ends, 01 stays lit until something is tapped (from the start,
+//   with reduced motion). Phones keep only the scroll spotlight.
 export function ServiceList() {
   const listRef = useRef<HTMLUListElement>(null);
   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
@@ -51,6 +54,12 @@ export function ServiceList() {
     timers.current.forEach((timer) => window.clearTimeout(timer));
     timers.current = [];
   };
+
+  // Two columns: the tapped item (null once it's tapped off); undefined
+  // until the first tap, so the items follow the sequence.
+  const [picked, setPicked] = useState<number | null>();
+  const mouseWide = useMedia(MOUSE_WIDE);
+  const tablet = twoColumns && !mouseWide;
 
   // Desktop sequence.
   useEffect(() => {
@@ -72,7 +81,13 @@ export function ServiceList() {
         timers.current.push(
           window.setTimeout(() => setLit(null), pauseAt),
           window.setTimeout(() => setLit("all"), allAt),
-          window.setTimeout(() => setLit(null), allAt + ALL_MS),
+          window.setTimeout(() => {
+            setLit(null);
+            // Tablets: 01 stays lit, unless something was tapped.
+            if (!window.matchMedia(MOUSE_WIDE).matches) {
+              setPicked((current) => (current === undefined ? 0 : current));
+            }
+          }, allAt + ALL_MS),
           window.setTimeout(
             () => {
               timers.current = [];
@@ -95,12 +110,10 @@ export function ServiceList() {
 
   // Mobile spotlight.
   const spotlight = useCenterSpotlight(itemRefs, !twoColumns);
-  // Two columns: the tapped item (null once it's tapped off); undefined
-  // until the first tap, so the items follow the sequence.
-  const [picked, setPicked] = useState<number | null>();
   const isLit = (index: number) => {
     if (!twoColumns) return spotlight === index;
     if (picked !== undefined) return picked === index;
+    if (tablet && reducedMotion) return index === 0;
     return lit === "all" || lit === index;
   };
   const toggle = (index: number) => {
