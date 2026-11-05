@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Reveal } from "@/components/ui/Reveal";
 import type { ProjectImage } from "@/data/projects";
 
 type SingleImageProps = {
@@ -9,9 +10,11 @@ type SingleImageProps = {
 
 // Figma Personal Accountant "image 2" (112:93): one full-width frame with a
 // 1004:821 ratio. `crop` reproduces Figma's slight trim of the screenshot's edges.
+// The frame wipes open from top to bottom as it scrolls on screen.
 export function SingleImage({ image, frame, crop }: SingleImageProps) {
   return (
-    <div
+    <Reveal
+      effect="wipe"
       className="relative w-full overflow-hidden"
       style={{
         aspectRatio: `${frame.width} / ${frame.height}`,
@@ -35,6 +38,6 @@ export function SingleImage({ image, frame, crop }: SingleImageProps) {
             : { inset: 0, width: "100%", height: "100%" }
         }
       />
-    </div>
+    </Reveal>
   );
 }
