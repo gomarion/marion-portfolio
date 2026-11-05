@@ -46,8 +46,8 @@ function useMedia(query: string) {
 //   short pause all four together, then go back to normal. The fades are slower and softer than a hover's. Hover is off
 //   until the last card has faded out, and the sequence is skipped for
 //   reduced motion.
-// - One column: whichever item crosses the middle of the screen is lit, and
-//   stays lit until the next one takes over, scrolling down or up.
+// - One column: the item closest to the middle of the screen is lit, and
+//   stays lit until the next one is closer, scrolling down or up.
 export function ServiceList() {
   const listRef = useRef<HTMLUListElement>(null);
   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
@@ -108,26 +108,47 @@ export function ServiceList() {
     };
   }, [twoColumns, reducedMotion]);
 
-  // Mobile spotlight: a band across the middle 20% of the screen. The newest
-  // item to enter it is lit; one leaving only clears the light if it still
-  // had it, so neighbours hand over without a gap.
+  // Mobile spotlight: on scroll, the item whose centre is closest to the
+  // middle of the screen is lit, so the light hands over exactly halfway
+  // between two items and a fast flick can't skip one. Nothing is lit until
+  // that item reaches the middle 20% of the screen, so the light starts and
+  // ends with the list.
   useEffect(() => {
     if (twoColumns) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const index = itemRefs.current.indexOf(
-            entry.target as HTMLLIElement,
-          );
-          if (entry.isIntersecting) setLit(index);
-          else setLit((current) => (current === index ? null : current));
-        });
-      },
-      { rootMargin: "-40% 0px -40% 0px" },
-    );
-    itemRefs.current.forEach((item) => item && observer.observe(item));
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const middle = window.innerHeight / 2;
+      let closest: number | null = null;
+      let closestDistance = Infinity;
+      itemRefs.current.forEach((item, index) => {
+        if (!item) return;
+        const box = item.getBoundingClientRect();
+        const distance = Math.abs((box.top + box.bottom) / 2 - middle);
+        if (distance < closestDistance) {
+          closest = index;
+          closestDistance = distance;
+        }
+      });
+      if (closest !== null) {
+        const box = itemRefs.current[closest]!.getBoundingClientRect();
+        const band = window.innerHeight * 0.1;
+        if (box.bottom < middle - band || box.top > middle + band) {
+          closest = null;
+        }
+      }
+      setLit(closest);
+    };
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
     return () => {
-      observer.disconnect();
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
       setLit(null);
     };
   }, [twoColumns]);
