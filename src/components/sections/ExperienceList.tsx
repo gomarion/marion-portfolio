@@ -60,12 +60,14 @@ const DETAILS = [
   "xl:before:absolute xl:before:top-1/2 xl:before:-left-[9px] xl:before:size-4 xl:before:-translate-y-1/2 xl:before:rotate-45 xl:before:border-b xl:before:border-l xl:before:border-ink xl:before:bg-paper",
 ].join(" ");
 
-// Hovering shows the bubble too, except while the bubble tour runs, which
-// fades the bubbles more slowly: a transition takes its timing from the
+// Hovering shows the bubble too, but only once the reveal and the bubble
+// tour are over (before that, a cursor crossing the list while scrolling
+// would flash bubbles). The tour fades the bubbles more slowly: a transition takes its timing from the
 // state it's heading to, so the shown state's `duration-300` sets the
 // fade-in and the base `duration-350` (BUBBLE_FADE_MS) the fade-out.
 const DETAILS_HOVER =
   "xl:duration-200 xl:ease-out xl:group-hover/exp:visible xl:group-hover/exp:scale-100 xl:group-hover/exp:opacity-100";
+const DETAILS_HOVER_OFF = "xl:duration-200 xl:ease-out";
 const DETAILS_TOUR =
   "xl:duration-350 xl:ease-in-out xl:group-data-bubble/exp:duration-300";
 
@@ -102,6 +104,10 @@ export function ExperienceList() {
   // the tour (from the reveal's start to the last bubble's fade-out) runs.
   const [bubble, setBubble] = useState<number | null>(null);
   const [touring, setTouring] = useState(false);
+  // Whether hover may show bubbles: once the reveal (and, from `xl`, the
+  // tour) is done. With reduced motion there's no reveal, so straight away.
+  const [hoverReady, setHoverReady] = useState(false);
+  const hoverEnabled = hoverReady || reducedMotion;
 
   useEffect(() => {
     const list = listRef.current;
@@ -130,7 +136,10 @@ export function ExperienceList() {
         // Apply the hidden styles before starting, so they transition.
         void list.offsetHeight;
         list.dataset.reveal = "play";
-        if (!window.matchMedia(WIDE).matches) return;
+        if (!window.matchMedia(WIDE).matches) {
+          setHoverReady(true);
+          return;
+        }
         setTouring(true);
         experience.forEach((_, index) => {
           const start = REVEAL_MS + index * BUBBLE_STEP_MS;
@@ -144,7 +153,12 @@ export function ExperienceList() {
           (experience.length - 1) * BUBBLE_STEP_MS +
           BUBBLE_SHOW_MS +
           BUBBLE_FADE_MS;
-        timers.push(window.setTimeout(() => setTouring(false), end));
+        timers.push(
+          window.setTimeout(() => {
+            setTouring(false);
+            setHoverReady(true);
+          }, end),
+        );
       },
       { threshold: Array.from({ length: 21 }, (_, i) => i / 20) },
     );
@@ -154,6 +168,8 @@ export function ExperienceList() {
       timers.forEach((timer) => window.clearTimeout(timer));
       setBubble(null);
       setTouring(false);
+      // A tour cut short (e.g. by resizing) still hands over to hover.
+      if (revealed.current) setHoverReady(true);
       if (!revealed.current) delete list.dataset.reveal;
     };
   }, [phone, reducedMotion]);
@@ -216,7 +232,7 @@ export function ExperienceList() {
           </div>
           <div
             id={`experience-details-${index}`}
-            className={`${DETAILS} ${touring ? DETAILS_TOUR : DETAILS_HOVER}`}
+            className={`${DETAILS} ${touring ? DETAILS_TOUR : hoverEnabled ? DETAILS_HOVER : DETAILS_HOVER_OFF}`}
           >
             <div className="overflow-hidden">
               <p className="max-xl:pt-3">{job.description}</p>
