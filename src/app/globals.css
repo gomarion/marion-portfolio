@@ -16,6 +16,7 @@
   --color-graphite: #4f5050; /* nav hover bar */
   --color-subtle: #656565; /* case study detail labels */
   --color-caption: #615f5f; /* case study video captions */
+  --color-pill: #e3e3e3; /* Currently Exploring key term highlight */
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;

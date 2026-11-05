@@ -11,6 +11,7 @@ import {
   type TouchEvent,
   type WheelEvent,
 } from "react";
+import { LensImage } from "@/components/case-study/LensImage";
 import type { ProjectImage } from "@/data/projects";
 
 type SliderGalleryProps = {
@@ -19,6 +20,11 @@ type SliderGalleryProps = {
   // Slide shape and image `sizes`; the defaults fit the homepage's 980×510.
   aspectRatio?: string;
   sizes?: string;
+  // Magnify the screenshot under the mouse (see LensImage). The slide then
+  // takes the image's own shape, so `aspectRatio` should match it.
+  lens?: boolean;
+  // Off: the slides only move when the visitor moves them.
+  autoplay?: boolean;
 };
 
 // Font Awesome's solid chevron (public/images/icons), mirrored for the next
@@ -74,6 +80,8 @@ export function SliderGallery({
   label,
   aspectRatio = "980 / 510",
   sizes = "(min-width: 1280px) 980px, 100vw",
+  lens = false,
+  autoplay = true,
 }: SliderGalleryProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -108,7 +116,8 @@ export function SliderGallery({
     () => false,
   );
 
-  const autoplay =
+  const playing =
+    autoplay &&
     !reducedMotion &&
     !hovered &&
     !focused &&
@@ -130,7 +139,7 @@ export function SliderGallery({
   // Restarts whenever the slide changes, so a dot click or swipe also gets a
   // full interval before the next advance.
   useEffect(() => {
-    if (!autoplay) return;
+    if (!playing) return;
     const timer = window.setTimeout(() => {
       const track = trackRef.current;
       if (!track) return;
@@ -138,7 +147,7 @@ export function SliderGallery({
       scrollToSlide(track, next, false);
     }, AUTOPLAY_MS);
     return () => window.clearTimeout(timer);
-  }, [autoplay, active, last]);
+  }, [playing, active, last]);
 
   const onScroll = () => {
     const track = trackRef.current;
@@ -255,8 +264,10 @@ export function SliderGallery({
           onKeyDown={onKeyDown}
           onWheel={onWheel}
           tabIndex={0}
-          aria-live={autoplay ? "off" : "polite"}
-          className="flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          aria-live={playing ? "off" : "polite"}
+          // overflow-x alone makes the track scroll vertically too, so the
+          // lens poking out below a slide would add a vertical scroll area.
+          className="flex snap-x snap-mandatory overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {images.map((image, index) => (
             <div
@@ -267,13 +278,17 @@ export function SliderGallery({
               className="relative w-full shrink-0 snap-start snap-always"
               style={{ aspectRatio }}
             >
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                sizes={sizes}
-                className="object-cover"
-              />
+              {lens ? (
+                <LensImage image={image} />
+              ) : (
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  sizes={sizes}
+                  className="object-cover"
+                />
+              )}
             </div>
           ))}
         </div>
