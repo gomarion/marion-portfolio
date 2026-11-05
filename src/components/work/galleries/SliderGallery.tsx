@@ -8,10 +8,11 @@ import {
   useSyncExternalStore,
   type FocusEvent,
   type KeyboardEvent,
+  type PointerEvent,
   type TouchEvent,
   type WheelEvent,
 } from "react";
-import { LensImage } from "@/components/case-study/LensImage";
+import { LensImage, moveLens } from "@/components/case-study/LensImage";
 import type { ProjectImage } from "@/data/projects";
 
 type SliderGalleryProps = {
@@ -234,6 +235,30 @@ export function SliderGallery({
     else if (start.atStart && dx > SWIPE_PX) goTo(last);
   };
 
+  // Lens sliders: the track crops each slide's own hover margin (see
+  // LensImage), so a 15px margin around the whole track drives the current
+  // slide's lens instead, pinned to the slide's edges.
+  const lensFrames = () => [
+    ...(trackRef.current?.querySelectorAll<HTMLElement>("[data-lens-frame]") ??
+      []),
+  ];
+  const onLensMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType !== "mouse") return;
+    const frame =
+      trackRef.current?.children[active]?.querySelector<HTMLElement>(
+        "[data-lens-frame]",
+      );
+    lensFrames().forEach((other) => {
+      if (other !== frame) delete other.dataset.lens;
+    });
+    if (!frame) return;
+    moveLens(frame, event.clientX, event.clientY);
+    frame.dataset.lens = "on";
+  };
+  const onLensLeave = () => {
+    lensFrames().forEach((frame) => delete frame.dataset.lens);
+  };
+
   // Only keyboard focus pauses; a mouse click on a dot shouldn't stop autoplay.
   const onFocus = (event: FocusEvent<HTMLElement>) => {
     if (event.target.matches(":focus-visible")) setFocused(true);
@@ -249,7 +274,16 @@ export function SliderGallery({
       aria-roledescription="carousel"
       aria-label={label}
     >
-      <div onFocus={onFocus} onBlur={onBlur}>
+      <div
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onPointerMove={lens ? onLensMove : undefined}
+        onPointerEnter={lens ? onLensMove : undefined}
+        onPointerLeave={lens ? onLensLeave : undefined}
+        className={
+          lens ? "-m-[15px] p-[15px] [@media(hover:hover)]:cursor-none" : ""
+        }
+      >
         <div
           ref={trackRef}
           onScroll={onScroll}
