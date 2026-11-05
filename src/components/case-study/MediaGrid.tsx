@@ -9,6 +9,14 @@ export function gridSizes(layout: GridLayout | undefined, index: number) {
     : "(min-width: 1280px) 575px, (min-width: 640px) 50vw, 100vw";
 }
 
+// Stagger class for a grid cell revealing into view: from 640px up, a cell
+// in the right column starts a beat after its left neighbour. A featured
+// first item spans both columns, so the count starts after it.
+export function gridDelay(layout: GridLayout | undefined, index: number) {
+  const column = layout?.featured ? (index - 1) % 2 : index % 2;
+  return column === 1 ? "sm:delay-150" : "";
+}
+
 // Grid for case study screenshots, 30px apart (or `layout.gap`). One column
 // on phones; from 640px up, two columns (relative widths from
 // `layout.columns`, even by default), with an optional full-width first

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { Reveal } from "@/components/ui/Reveal";
 import type { CaseMedia } from "@/data/case-studies";
 import { LIGHTBOX_TRIGGER_CLASSES, Lightbox } from "./Lightbox";
 
@@ -9,6 +10,9 @@ type Cards = Extract<CaseMedia, { type: "cards" }>["cards"];
 
 // Figma "Frame 32" (325:368): 3 columns, 30px apart; title, 340×550
 // screenshot and caption 15px apart.
+//
+// Each card zooms in slightly and fades into view as it scrolls on screen;
+// side by side, they follow each other left to right a beat apart.
 //
 // Screenshots of cards with a `full` image are buttons that open the full
 // page in the lightbox, which can step between those cards. Closing returns
@@ -45,28 +49,34 @@ export function CardGallery({ cards }: { cards: Cards }) {
           );
 
           return (
-            <figure key={item.title} className="flex flex-col gap-3.75">
-              <h4 className="text-body-sm font-semibold">{item.title}</h4>
-              {item.full ? (
-                <button
-                  ref={(node) => {
-                    triggerRefs.current[index] = node;
-                  }}
-                  type="button"
-                  onClick={() => setCurrent(index)}
-                  aria-label={`View the full ${item.title} homepage`}
-                  aria-haspopup="dialog"
-                  className={`block ${LIGHTBOX_TRIGGER_CLASSES}`}
-                >
-                  {preview}
-                </button>
-              ) : (
-                preview
-              )}
-              <figcaption className="text-body-sm tracking-normal">
-                {item.caption}
-              </figcaption>
-            </figure>
+            <Reveal
+              key={item.title}
+              effect="zoom"
+              className={["", "md:delay-150", "md:delay-300"][index % 3]}
+            >
+              <figure className="flex flex-col gap-3.75">
+                <h4 className="text-body-sm font-semibold">{item.title}</h4>
+                {item.full ? (
+                  <button
+                    ref={(node) => {
+                      triggerRefs.current[index] = node;
+                    }}
+                    type="button"
+                    onClick={() => setCurrent(index)}
+                    aria-label={`View the full ${item.title} homepage`}
+                    aria-haspopup="dialog"
+                    className={`block ${LIGHTBOX_TRIGGER_CLASSES}`}
+                  >
+                    {preview}
+                  </button>
+                ) : (
+                  preview
+                )}
+                <figcaption className="text-body-sm tracking-normal">
+                  {item.caption}
+                </figcaption>
+              </figure>
+            </Reveal>
           );
         })}
       </div>

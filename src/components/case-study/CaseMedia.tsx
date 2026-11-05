@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { CaseMedia as CaseMediaData } from "@/data/case-studies";
 import type { ProjectImage } from "@/data/projects";
+import { Reveal } from "@/components/ui/Reveal";
 import { SliderGallery } from "@/components/work/galleries/SliderGallery";
 import { CardGallery } from "./CardGallery";
 import { CropGallery } from "./CropGallery";
@@ -8,7 +9,7 @@ import { FanGallery } from "./FanGallery";
 import { Flow } from "./Flow";
 import { Highlights } from "./Highlights";
 import { LensImage } from "./LensImage";
-import { MediaGrid, gridSizes } from "./MediaGrid";
+import { MediaGrid, gridDelay, gridSizes } from "./MediaGrid";
 import { PreviewGallery } from "./PreviewGallery";
 import { SpheresDemo } from "./SpheresDemo";
 import { YouTubeEmbed } from "./YouTubeEmbed";
@@ -16,20 +17,29 @@ import { YouTubeEmbed } from "./YouTubeEmbed";
 // Full width of the case file content column (1080px on desktop).
 const FULL_WIDTH = "(min-width: 1280px) 1080px, 100vw";
 
+// Screenshots and galleries animate into view (see Reveal): single
+// screenshots wipe open (or rise, with the lens, which a wipe's clip would
+// cut off), grid cells rise column by column, cards zoom in one by one and
+// the preview and fan galleries zoom in as a whole. Sliders, videos, the
+// Spheres demo, highlights and flows don't animate.
 export function CaseMedia({ media }: { media: CaseMediaData }) {
   switch (media.type) {
     case "image": {
       const image = media.zoom ? (
-        <LensImage image={media.image} />
+        <Reveal effect="up">
+          <LensImage image={media.image} />
+        </Reveal>
       ) : (
-        <FullImage
-          image={media.image}
-          sizes={
-            media.maxWidth
-              ? `(min-width: 1280px) ${media.maxWidth}px, 100vw`
-              : undefined
-          }
-        />
+        <Reveal effect="wipe">
+          <FullImage
+            image={media.image}
+            sizes={
+              media.maxWidth
+                ? `(min-width: 1280px) ${media.maxWidth}px, 100vw`
+                : undefined
+            }
+          />
+        </Reveal>
       );
       if (!media.caption && !media.maxWidth) return image;
       return (
@@ -54,13 +64,21 @@ export function CaseMedia({ media }: { media: CaseMediaData }) {
                 sizes={gridSizes(media.layout, index)}
               />
             );
-            return item.caption ? (
-              <figure key={item.image.src}>
-                {image}
-                <Caption text={item.caption} />
-              </figure>
-            ) : (
-              <div key={item.image.src}>{image}</div>
+            return (
+              <Reveal
+                key={item.image.src}
+                effect="up"
+                className={gridDelay(media.layout, index)}
+              >
+                {item.caption ? (
+                  <figure>
+                    {image}
+                    <Caption text={item.caption} />
+                  </figure>
+                ) : (
+                  image
+                )}
+              </Reveal>
             );
           })}
         </MediaGrid>
@@ -111,7 +129,11 @@ export function CaseMedia({ media }: { media: CaseMediaData }) {
     case "gallery":
       return <CropGallery items={media.items} layout={media.layout} />;
     case "fan":
-      return <FanGallery items={media.items} />;
+      return (
+        <Reveal effect="zoom">
+          <FanGallery items={media.items} />
+        </Reveal>
+      );
     case "slider":
       return (
         <SliderGallery
@@ -123,11 +145,13 @@ export function CaseMedia({ media }: { media: CaseMediaData }) {
       );
     case "preview":
       return (
-        <PreviewGallery
-          title={media.title}
-          images={media.images}
-          full={media.full}
-        />
+        <Reveal effect="zoom">
+          <PreviewGallery
+            title={media.title}
+            images={media.images}
+            full={media.full}
+          />
+        </Reveal>
       );
   }
 }
@@ -155,7 +179,7 @@ function FullImage({
       width={image.width}
       height={image.height}
       sizes={sizes}
-      className="h-auto w-full"
+      className="block h-auto w-full"
     />
   );
 }
