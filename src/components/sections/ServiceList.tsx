@@ -1,16 +1,12 @@
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 import { services } from "@/data/services";
+import { useCenterSpotlight } from "@/lib/useCenterSpotlight";
+import { REDUCED_MOTION, useMedia } from "@/lib/useMedia";
 
 // Two columns from `md`: the desktop sequence. Below it: the scroll spotlight.
 const TWO_COLUMNS = "(min-width: 48rem)";
-const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 
 // Desktop: the order the cards light up in, how long each stays lit, and how
 // long each fades in and out (the `duration-700` below). The fades overlap,
@@ -22,22 +18,6 @@ const STEP_MS = 900;
 const PAUSE_MS = 650;
 const ALL_MS = 1200;
 const FADE_MS = 700;
-
-function subscribeMedia(query: string) {
-  return (onChange: () => void) => {
-    const list = window.matchMedia(query);
-    list.addEventListener("change", onChange);
-    return () => list.removeEventListener("change", onChange);
-  };
-}
-
-function useMedia(query: string) {
-  return useSyncExternalStore(
-    subscribeMedia(query),
-    () => window.matchMedia(query).matches,
-    () => false,
-  );
-}
 
 // The "What I do" grid. An item turns into the black hover card (Figma
 // 165:49) on hover, and also while it is "lit":
@@ -55,7 +35,7 @@ export function ServiceList() {
   // Set once the sequence has started, so resizing across `md` doesn't
   // replay it.
   const played = useRef(false);
-  // The lit item's index, "all" for every item, or null.
+  // Desktop sequence: the lit item's index, "all" for every item, or null.
   const [lit, setLit] = useState<number | "all" | null>(null);
   // True while the desktop sequence runs, including the final fade-out.
   const [sequencing, setSequencing] = useState(false);
@@ -108,50 +88,10 @@ export function ServiceList() {
     };
   }, [twoColumns, reducedMotion]);
 
-  // Mobile spotlight: on scroll, the item whose centre is closest to the
-  // middle of the screen is lit, so the light hands over exactly halfway
-  // between two items and a fast flick can't skip one. Nothing is lit until
-  // that item reaches the middle 20% of the screen, so the light starts and
-  // ends with the list.
-  useEffect(() => {
-    if (twoColumns) return;
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const middle = window.innerHeight / 2;
-      let closest: number | null = null;
-      let closestDistance = Infinity;
-      itemRefs.current.forEach((item, index) => {
-        if (!item) return;
-        const box = item.getBoundingClientRect();
-        const distance = Math.abs((box.top + box.bottom) / 2 - middle);
-        if (distance < closestDistance) {
-          closest = index;
-          closestDistance = distance;
-        }
-      });
-      if (closest !== null) {
-        const box = itemRefs.current[closest]!.getBoundingClientRect();
-        const band = window.innerHeight * 0.1;
-        if (box.bottom < middle - band || box.top > middle + band) {
-          closest = null;
-        }
-      }
-      setLit(closest);
-    };
-    const schedule = () => {
-      if (!frame) frame = window.requestAnimationFrame(update);
-    };
-    schedule();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      setLit(null);
-    };
-  }, [twoColumns]);
+  // Mobile spotlight.
+  const spotlight = useCenterSpotlight(itemRefs, !twoColumns);
+  const isLit = (index: number) =>
+    twoColumns ? lit === "all" || lit === index : spotlight === index;
 
   return (
     <ul
@@ -164,7 +104,7 @@ export function ServiceList() {
           ref={(node) => {
             itemRefs.current[index] = node;
           }}
-          data-lit={lit === "all" || lit === index || undefined}
+          data-lit={isLit(index) || undefined}
           className={`-m-3.75 flex flex-col gap-2.75 rounded-[5px] p-3.75 transition-[background-color,color,box-shadow] data-lit:bg-ink data-lit:text-paper data-lit:shadow-card ${
             sequencing
               ? "duration-700 ease-in-out"
