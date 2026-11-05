@@ -37,7 +37,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${fontVariables} h-full antialiased`}>
+    // data-scroll-behavior: globals.css scrolls smoothly for in-page links;
+    // this makes Next.js switch that off while changing pages, so a new page
+    // starts at the top instead of gliding up from the old scroll position
+    // (which also set off its scroll-in animations on the way).
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${fontVariables} h-full antialiased`}
+    >
       <body className="relative min-h-full flex flex-col">
         {children}
         <BackToTop />
