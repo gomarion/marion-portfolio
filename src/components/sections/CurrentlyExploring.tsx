@@ -8,6 +8,7 @@ const terms = [
   "AI-powered workflows",
   "Next.js",
   "TypeScript",
+  "Tailwind CSS",
 ];
 
 const screenshot = (file: string, alt: string): ProjectImage => ({
