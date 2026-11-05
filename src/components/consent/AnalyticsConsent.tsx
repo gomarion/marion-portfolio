@@ -104,7 +104,13 @@ export function AnalyticsConsent() {
         >
           <p className="text-[0.9375rem] leading-[1.6] tracking-[0.01em]">
             May I use Google Analytics cookies to learn how visitors use this
-            site? Anonymous, cookie-free visit counts are always on.
+            site? Anonymous, cookie-free visit counts are always on.{" "}
+            <a
+              href="/privacy"
+              className="underline underline-offset-4 transition-opacity hover:opacity-60"
+            >
+              Privacy
+            </a>
           </p>
           <div className="flex gap-3">
             <button

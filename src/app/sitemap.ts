@@ -26,5 +26,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: absoluteUrl(`/blog/${slug}`),
       lastModified: meta.updated ?? meta.date,
     })),
+    { url: absoluteUrl("/privacy") },
   ];
 }

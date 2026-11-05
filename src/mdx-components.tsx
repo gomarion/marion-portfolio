@@ -72,8 +72,9 @@ function PostImage({
   );
 }
 
-// Links to other sites open in a new tab.
-function PostLink({ href = "", children, ...props }: ComponentProps<"a">) {
+// Links to other sites open in a new tab. Exported so MDX files can use it
+// for links built from data, e.g. <PostLink href={`mailto:${site.email}`}>.
+export function PostLink({ href = "", children, ...props }: ComponentProps<"a">) {
   const external = /^https?:\/\//.test(href);
   return (
     <a
