@@ -23,9 +23,9 @@ const FADE_MS = 700;
 // 165:49) on hover, and also while it is "lit":
 // - Two columns: the first time the grid scrolls into view on a page load,
 //   the cards light one after another, 01 → 02 → 03 → 04, then after a
-//   short pause all four together, then go back to normal. The fades are slower and softer than a hover's. Hover is off
-//   until the last card has faded out, and the sequence is skipped for
-//   reduced motion.
+//   short pause all four together, then go back to normal. The fades are
+//   slower and softer than a hover's. Hover is off until the last card has
+//   faded out, and the sequence is skipped for reduced motion.
 // - One column: the item closest to the middle of the screen is lit, and
 //   stays lit until the next one is closer, scrolling down or up.
 export function ServiceList() {
