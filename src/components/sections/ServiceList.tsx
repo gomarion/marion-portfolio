@@ -13,7 +13,7 @@ const TWO_COLUMNS = "(min-width: 48rem)";
 // so one card dims as the next lights up. After the last one, every card is
 // unlit for PAUSE_MS (its fade-out plus a short beat), then all four light
 // together for ALL_MS before fading back to normal.
-const SEQUENCE = [0, 3, 2, 1];
+const SEQUENCE = [0, 1, 2, 3];
 const STEP_MS = 900;
 const PAUSE_MS = 650;
 const ALL_MS = 1200;
@@ -22,7 +22,7 @@ const FADE_MS = 700;
 // The "What I do" grid. An item turns into the black hover card (Figma
 // 165:49) on hover, and also while it is "lit":
 // - Two columns: the first time the grid scrolls into view on a page load,
-//   the cards light one after another, 01 → 04 → 03 → 02, then after a
+//   the cards light one after another, 01 → 02 → 03 → 04, then after a
 //   short pause all four together, then go back to normal. The fades are slower and softer than a hover's. Hover is off
 //   until the last card has faded out, and the sequence is skipped for
 //   reduced motion.
