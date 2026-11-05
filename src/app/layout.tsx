@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   description: site.description,
   authors: [{ name: site.name }],
   creator: site.name,
+  // Proves ownership of the site to Google Search Console (HTML tag method).
+  verification: { google: "XTXu9l87EiyqvsB1wxbwl7wgea7_j3jd_-oj2fb1Nqo" },
   openGraph: {
     type: "website",
     url: "/",
