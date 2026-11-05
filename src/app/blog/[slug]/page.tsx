@@ -4,8 +4,10 @@ import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Contact } from "@/components/sections/Contact";
+import { JsonLd, personSchema } from "@/components/seo/JsonLd";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { formatDate, getPosts } from "@/lib/blog";
+import { absoluteUrl } from "@/lib/site-url";
 
 // Only the posts in src/content/blog exist (drafts only in development);
 // any other slug is a 404.
@@ -57,9 +59,25 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
   const post = await findPost(slug);
   if (!post) notFound();
   const { Content, meta } = post;
+  const url = absoluteUrl(`/blog/${slug}`);
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: meta.title,
+          description: meta.description,
+          datePublished: meta.date,
+          dateModified: meta.updated ?? meta.date,
+          url,
+          mainEntityOfPage: url,
+          image: absoluteUrl(`/blog/${slug}/opengraph-image`),
+          keywords: meta.tags,
+          author: personSchema(),
+        }}
+      />
       <SiteHeader variant="bar" />
       <main className="flex-1">
         <div className="mx-auto box-content flex max-w-content flex-col gap-30 px-4 pt-16 pb-30 sm:px-6 lg:gap-45 lg:px-10 lg:pt-25 lg:pb-50">

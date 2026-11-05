@@ -2,17 +2,13 @@ import type { Metadata } from "next";
 import { BackToTop } from "@/components/layout/BackToTop";
 import { site } from "@/data/site";
 import { fontVariables } from "@/lib/fonts";
+import { SITE_URL } from "@/lib/site-url";
 import "./globals.css";
-
-// Vercel sets this on every deployment; fall back to localhost for `next dev`.
-const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "http://localhost:3000";
 
 const title = `${site.name} — Web Developer`;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: title,
     template: `%s | ${site.name}`,

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Contact } from "@/components/sections/Contact";
@@ -6,10 +7,16 @@ import { Experience } from "@/components/sections/Experience";
 import { Hero } from "@/components/sections/Hero";
 import { WhatIDo } from "@/components/sections/WhatIDo";
 import { Work } from "@/components/sections/Work";
+import { JsonLd, personSchema } from "@/components/seo/JsonLd";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (
     <>
+      <JsonLd data={{ "@context": "https://schema.org", ...personSchema() }} />
       <SiteHeader />
       <main className="flex-1">
         <Hero />
