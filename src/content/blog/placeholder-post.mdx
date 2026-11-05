@@ -1,0 +1,54 @@
+export const metadata = {
+  title: "Placeholder Post",
+  description:
+    "A stand-in post that shows how blog posts look: headings, paragraphs, lists, quotes, code and images.",
+  date: "2026-11-06",
+  tags: ["Placeholder", "Next.js"],
+  // Shown in `npm run dev` only. Remove this line to publish.
+  draft: true,
+};
+
+This is a placeholder post. It exists to show how each part of a post is styled, so it can be swapped for a real one. The text sits in a column about 65 characters wide, which keeps long paragraphs comfortable to read, with a little more line spacing and lighter letter spacing than the rest of the site.
+
+A second paragraph shows the spacing between paragraphs. Links look [like this one to the WordPress case study](/work/wordpress), and links to other sites, such as [the Next.js documentation](https://nextjs.org/docs), open in a new tab. Inline code looks like `npm run dev`.
+
+## A section heading
+
+Section headings use the same typeface as the "What I do" titles. Lists work as expected:
+
+- Custom themes for Shopify, Ghost, WordPress and Tumblr
+- Website operations: hosting, deployments, DNS and performance
+- Building with AI-assisted tools like Claude Code
+
+And numbered steps:
+
+1. Write the post as an `.mdx` file in `src/content/blog`.
+2. Preview it with `npm run dev`.
+3. Remove `draft: true` and push to publish.
+
+### A smaller heading
+
+> A quote stands out from the text with a rule on its left. It's useful for pulling out a key idea or quoting someone.
+
+Code blocks scroll sideways when a line is too long for the column:
+
+```tsx
+export function Greeting({ name }: { name: string }) {
+  return <p>Hello, {name}!</p>;
+}
+```
+
+Images can stay in the text column, or go wide to the full post width, like this one:
+
+<PostImage
+  src="/images/exploring/claude-code-site-header.webp"
+  alt="Claude Code session building the site header component from the Figma design"
+  width={1918}
+  height={1080}
+  caption="A wide image with a caption, as on the case studies."
+  wide
+/>
+
+---
+
+That's every style a post uses. Replace this file with a real post when it's ready.

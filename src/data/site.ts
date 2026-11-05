@@ -12,13 +12,15 @@ export const navItems = [
   { label: "Work", href: "#work" },
   { label: "What I Do", href: "#what-i-do" },
   { label: "Experience", href: "#experience" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "#contact" },
 ] as const;
 
-// Nav items point at homepage sections. On subpages they need a "/" in
-// front, and "Home" goes to the homepage itself.
+// Nav items point at homepage sections (or, like the blog, at a page). On
+// subpages section links need a "/" in front, and "Home" goes to the
+// homepage itself.
 export function navHref(href: string, onHome: boolean) {
-  if (onHome) return href;
+  if (onHome || href.startsWith("/")) return href;
   return href === "#top" ? "/" : `/${href}`;
 }
 
