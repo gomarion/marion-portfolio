@@ -28,6 +28,11 @@ const FADE_MS = 700;
 //   faded out, and the sequence is skipped for reduced motion.
 // - One column: the item closest to the middle of the screen is lit, and
 //   stays lit until the next one is closer, scrolling down or up.
+// - Tablets and other two-column screens without hover: tapping an item
+//   lights it and turns any other back to default; tapping the lit item
+//   turns it off. One item at a time, and a tap during the sequence ends
+//   it. The tap target is a full-size invisible toggle button. Phones keep
+//   only the scroll spotlight.
 export function ServiceList() {
   const listRef = useRef<HTMLUListElement>(null);
   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
@@ -90,8 +95,20 @@ export function ServiceList() {
 
   // Mobile spotlight.
   const spotlight = useCenterSpotlight(itemRefs, !twoColumns);
-  const isLit = (index: number) =>
-    twoColumns ? lit === "all" || lit === index : spotlight === index;
+  // Two columns: the tapped item (null once it's tapped off); undefined
+  // until the first tap, so the items follow the sequence.
+  const [picked, setPicked] = useState<number | null>();
+  const isLit = (index: number) => {
+    if (!twoColumns) return spotlight === index;
+    if (picked !== undefined) return picked === index;
+    return lit === "all" || lit === index;
+  };
+  const toggle = (index: number) => {
+    stopSequence();
+    setLit(null);
+    setSequencing(false);
+    setPicked(picked === index ? null : index);
+  };
 
   return (
     <ul
@@ -105,7 +122,7 @@ export function ServiceList() {
             itemRefs.current[index] = node;
           }}
           data-lit={isLit(index) || undefined}
-          className={`-m-3.75 flex flex-col gap-2.75 rounded-[5px] p-3.75 transition-[background-color,color,box-shadow] data-lit:bg-ink data-lit:text-paper data-lit:shadow-card ${
+          className={`relative -m-3.75 flex flex-col gap-2.75 rounded-[5px] p-3.75 transition-[background-color,color,box-shadow] data-lit:bg-ink data-lit:text-paper data-lit:shadow-card ${
             sequencing
               ? "duration-700 ease-in-out"
               : "duration-200 hover:bg-ink hover:text-paper hover:shadow-card"
@@ -116,6 +133,15 @@ export function ServiceList() {
             <span className="block">{service.title}</span>
           </h3>
           <p className="text-body-sm">{service.description}</p>
+          {/* Two columns only (phones have the spotlight), and hidden where
+              there's a mouse on a wide screen, since hover does it. */}
+          <button
+            type="button"
+            aria-pressed={isLit(index)}
+            aria-label={`Highlight ${service.title}`}
+            onClick={() => toggle(index)}
+            className="absolute inset-0 cursor-pointer rounded-[5px] outline-offset-2 focus-visible:outline-2 focus-visible:outline-ink max-md:hidden [@media(hover:hover)_and_(min-width:64rem)]:hidden"
+          />
         </li>
       ))}
     </ul>
