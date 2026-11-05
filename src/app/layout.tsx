@@ -1,4 +1,7 @@
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
+import { AnalyticsConsent } from "@/components/consent/AnalyticsConsent";
 import { BackToTop } from "@/components/layout/BackToTop";
 import { site } from "@/data/site";
 import { fontVariables } from "@/lib/fonts";
@@ -45,6 +48,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="relative min-h-full flex flex-col">
         {children}
         <BackToTop />
+        {/* Vercel's visit counts and real-visitor page speed: cookie-free,
+            so always on. Google Analytics waits for consent. */}
+        <Analytics />
+        <SpeedInsights />
+        <AnalyticsConsent />
       </body>
     </html>
   );

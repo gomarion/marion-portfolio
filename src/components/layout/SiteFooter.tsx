@@ -1,8 +1,10 @@
 import Image from "next/image";
+import { CookieSettingsButton } from "@/components/consent/CookieSettingsButton";
 import { site, socialLinks } from "@/data/site";
 
 // Figma "footer" (3:59): 1px divider on top, 25px vertical padding, content
-// inset 23px from each edge of the 1440 frame — icons left, copyright right.
+// inset 23px from each edge of the 1440 frame — icons left, copyright (and a
+// "Cookie settings" link that reopens the consent banner) right.
 // Below `sm` both are stacked and centered.
 export function SiteFooter() {
   // "2026" until the year changes, then a range like "2026–2027". The year is
@@ -36,7 +38,8 @@ export function SiteFooter() {
           ))}
         </ul>
         <p className="text-copyright">
-          © {years} {site.name}. Designed &amp; built by me.
+          © {years} {site.name}. Designed &amp; built by me.{" "}
+          <CookieSettingsButton />
         </p>
       </div>
     </footer>
