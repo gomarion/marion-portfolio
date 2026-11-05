@@ -50,7 +50,10 @@ export function CurrentlyExploring() {
           I&apos;m exploring AI-assisted programming and how tools like Claude Code can support the development process—from planning and problem-solving to implementation and refinement.
         </p>
         <p className="text-body">
-          My focus is on learning how to work effectively with AI while keeping the technical decisions, code quality, and overall direction firmly in my hands.
+          I&apos;m applying this approach to the development of this portfolio, built with Next.js, TypeScript, and Tailwind CSS. Working with AI-assisted tools has allowed me to explore new workflows, iterate on implementations, and bring my designs to life while remaining actively involved in the technical decisions.
+        </p>
+        <p className="text-body">
+          My focus is on learning how to work effectively with AI while keeping code quality, problem-solving, and overall development direction firmly in my hands.
         </p>
       </div>
 
