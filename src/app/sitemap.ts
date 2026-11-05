@@ -5,8 +5,8 @@ import { absoluteUrl } from "@/lib/site-url";
 
 // /sitemap.xml: every public page, so search engines find new posts
 // quickly. Only the blog has reliable dates, so only blog entries carry
-// `lastModified` (a wrong date is worse than none). Drafts are left out of
-// production builds by getPosts.
+// `lastModified` (a wrong date is worse than none). getPosts leaves out
+// unlisted posts, and drafts in production builds.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getPosts();
   const newest = posts[0];

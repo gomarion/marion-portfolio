@@ -4,8 +4,9 @@ export const metadata = {
     "A stand-in post that shows how blog posts look: headings, paragraphs, lists, quotes, code and images.",
   date: "2026-11-06",
   tags: ["Placeholder", "Next.js"],
-  // Shown in `npm run dev` only. Remove this line to publish.
-  draft: true,
+  // A style reference: published, but only reachable by its link (not on
+  // the blog index, in the sitemap or in search results).
+  unlisted: true,
 };
 
 This is a placeholder post. It exists to show how each part of a post is styled, so it can be swapped for a real one. The text sits in a column about 65 characters wide, which keeps long paragraphs comfortable to read, with a little more line spacing and lighter letter spacing than the rest of the site.

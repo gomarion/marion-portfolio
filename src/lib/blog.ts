@@ -15,6 +15,10 @@ export type PostMeta = {
   // Drafts show in `next dev` but are left out of production builds, so
   // they're never published by accident.
   draft?: boolean;
+  // Unlisted posts are published, so anyone with the link can read them,
+  // but they're left off the blog index and the sitemap and ask search
+  // engines not to index them.
+  unlisted?: boolean;
 };
 
 export type Post = { slug: string; meta: PostMeta; Content: MDXContent };
@@ -32,8 +36,12 @@ export async function getPost(slug: string): Promise<Post> {
   return { slug, meta: post.metadata, Content: post.default };
 }
 
-// Every published post (plus drafts in development), newest first.
-export async function getPosts(): Promise<Post[]> {
+// The blog's posts (plus drafts in development), newest first. Unlisted
+// posts are left out unless `unlisted` is set, which the post routes use so
+// those posts still get pages.
+export async function getPosts({
+  unlisted = false,
+}: { unlisted?: boolean } = {}): Promise<Post[]> {
   const slugs = fs
     .readdirSync(POSTS_DIR)
     .filter((file) => file.endsWith(".mdx"))
@@ -41,6 +49,7 @@ export async function getPosts(): Promise<Post[]> {
   const posts = await Promise.all(slugs.map(getPost));
   return posts
     .filter((post) => SHOW_DRAFTS || !post.meta.draft)
+    .filter((post) => unlisted || !post.meta.unlisted)
     .sort((a, b) => b.meta.date.localeCompare(a.meta.date));
 }
 

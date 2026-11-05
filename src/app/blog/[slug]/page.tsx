@@ -14,12 +14,12 @@ import { absoluteUrl } from "@/lib/site-url";
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const posts = await getPosts();
+  const posts = await getPosts({ unlisted: true });
   return posts.map(({ slug }) => ({ slug }));
 }
 
 async function findPost(slug: string) {
-  const posts = await getPosts();
+  const posts = await getPosts({ unlisted: true });
   return posts.find((post) => post.slug === slug);
 }
 
@@ -29,7 +29,7 @@ export async function generateMetadata(
   const { slug } = await props.params;
   const post = await findPost(slug);
   if (!post) return {};
-  const { title, description, date, updated, tags } = post.meta;
+  const { title, description, date, updated, tags, unlisted } = post.meta;
   const url = `/blog/${slug}`;
 
   return {
@@ -37,6 +37,8 @@ export async function generateMetadata(
     description,
     keywords: tags,
     alternates: { canonical: url },
+    // Unlisted: readable by link, but kept out of search results.
+    ...(unlisted && { robots: { index: false, follow: false } }),
     openGraph: {
       type: "article",
       title,

@@ -7,7 +7,7 @@ export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
 export async function generateStaticParams() {
-  const posts = await getPosts();
+  const posts = await getPosts({ unlisted: true });
   return posts.map(({ slug }) => ({ slug }));
 }
 
@@ -17,7 +17,9 @@ export default async function Image({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = (await getPosts()).find((entry) => entry.slug === slug);
+  const post = (await getPosts({ unlisted: true })).find(
+    (entry) => entry.slug === slug,
+  );
   return ogImage({
     label: "Blog",
     title: post?.meta.title ?? "Blog",
