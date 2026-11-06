@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 // Floating link back to the header (`#top`, on every page). It fades in once
@@ -12,29 +13,35 @@ import { useEffect, useState } from "react";
 // scrolls up with the page, so it never covers the footer. The footer's
 // height changes as its text wraps, so the layer's bottom is measured; the
 // classes are the fallback before that runs, or on a page with no footer.
+// This component lives in the root layout and survives page changes, so the
+// footer is looked up again on each one.
 const FOOTER_GAP = 16;
 
 export function BackToTop() {
   const [visible, setVisible] = useState(false);
   const [bottom, setBottom] = useState<number>();
+  const pathname = usePathname();
 
   useEffect(() => {
-    const footer = document.querySelector("footer");
-    if (!footer) return;
     // Distance from the footer's top to the body's bottom, which also counts
     // anything rendered after the footer.
-    const measure = () =>
+    const measure = () => {
+      const footer = document.querySelector("footer");
       setBottom(
-        document.body.getBoundingClientRect().bottom -
-          footer.getBoundingClientRect().top +
-          FOOTER_GAP,
+        footer
+          ? document.body.getBoundingClientRect().bottom -
+              footer.getBoundingClientRect().top +
+              FOOTER_GAP
+          : undefined,
       );
+    };
     measure();
     const observer = new ResizeObserver(measure);
-    observer.observe(footer);
+    const footer = document.querySelector("footer");
+    if (footer) observer.observe(footer);
     observer.observe(document.body);
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     const update = () => setVisible(window.scrollY > window.innerHeight);
