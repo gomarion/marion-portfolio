@@ -7,12 +7,34 @@ import { useEffect, useState } from "react";
 // it can't be clicked or tabbed to. Smooth scrolling comes from globals.css.
 //
 // It sits at the end of a click-through layer that covers the page down to
-// 100px above its bottom, or 120px below 640px, where the stacked footer is
-// taller (the body is `relative`). Being `sticky`, it stays
+// a gap above the footer (the body is `relative`). Being `sticky`, it stays
 // pinned to the corner of the screen while scrolling, then stops there and
-// scrolls up with the page, so it never covers the footer.
+// scrolls up with the page, so it never covers the footer. The footer's
+// height changes as its text wraps, so the layer's bottom is measured; the
+// classes are the fallback before that runs, or on a page with no footer.
+const FOOTER_GAP = 16;
+
 export function BackToTop() {
   const [visible, setVisible] = useState(false);
+  const [bottom, setBottom] = useState<number>();
+
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+    // Distance from the footer's top to the body's bottom, which also counts
+    // anything rendered after the footer.
+    const measure = () =>
+      setBottom(
+        document.body.getBoundingClientRect().bottom -
+          footer.getBoundingClientRect().top +
+          FOOTER_GAP,
+      );
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(footer);
+    observer.observe(document.body);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const update = () => setVisible(window.scrollY > window.innerHeight);
@@ -26,7 +48,10 @@ export function BackToTop() {
   }, []);
 
   return (
-    <div className="pointer-events-none absolute inset-x-0 top-0 bottom-30 z-30 sm:bottom-25 flex flex-col items-end justify-end">
+    <div
+      className="pointer-events-none absolute inset-x-0 top-0 bottom-36 z-30 sm:bottom-30 md:bottom-25 flex flex-col items-end justify-end"
+      style={bottom === undefined ? undefined : { bottom }}
+    >
       <a
         href="#top"
         aria-label="Back to top"
