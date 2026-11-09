@@ -37,7 +37,7 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
               fill
               sizes="123vw"
               loading="eager"
-              className="object-cover opacity-37"
+              className="object-cover opacity-37 blur-[1.5px]"
             />
           </div>
         </div>

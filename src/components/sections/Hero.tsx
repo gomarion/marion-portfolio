@@ -19,7 +19,7 @@ export function Hero() {
           sizes="123vw"
           loading="eager"
           fetchPriority="high"
-          className="object-cover opacity-37"
+          className="object-cover opacity-37 blur-[1.5px]"
         />
       </div>
 
