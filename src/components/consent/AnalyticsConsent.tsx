@@ -1,11 +1,13 @@
 "use client";
 
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { useEffect, useState, useSyncExternalStore } from "react";
 
 // Google Analytics 4 property for the site. It's public by nature (it ends
 // up in every page that loads GA), so it lives here rather than in a secret.
+// Marion: Implementing GTM instead of GA4
 const GA_ID = "G-NKM3TTELHT";
+const GTM_ID = "GTM-NLDCM6VK";
 
 // Only real visits to the live site count: not `next dev`, and not Vercel's
 // preview deployments.
@@ -94,9 +96,10 @@ export function AnalyticsConsent() {
 
   const showBanner = choice === null || (choice !== undefined && reopened);
 
+  // Marion: Implementing GTM instead of GA4
   return (
     <>
-      {TRACK && choice === "granted" && <GoogleAnalytics gaId={GA_ID} />}
+      {TRACK && choice === "granted" && <GoogleTagManager gtmId={GTM_ID} />}
       {showBanner && (
         <section
           aria-label="Cookie consent"
