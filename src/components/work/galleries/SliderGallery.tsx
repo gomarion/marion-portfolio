@@ -337,7 +337,7 @@ export function SliderGallery({
           direction="previous"
           onClick={() => goTo(active === 0 ? last : active - 1)}
         />
-        <div className="flex gap-3.25">
+        <div className="flex gap-3.75">
           {images.map((image, index) => (
             <button
               key={image.src}
