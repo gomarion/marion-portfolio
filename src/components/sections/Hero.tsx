@@ -1,3 +1,4 @@
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import Image from "next/image";
 import { site } from "@/data/site";
 
@@ -23,15 +24,18 @@ export function Hero() {
         />
       </div>
 
-      <div className="mx-auto max-w-360 px-4 pt-36 pb-12 sm:px-6 lg:pt-48 lg:pb-16.25 xl:pr-10 xl:pl-19">
+      <div className="mx-auto max-w-360 px-4 pt-36 pb-8 sm:px-6 lg:pt-48 lg:pb-8.25 xl:pr-10 xl:pl-19">
         <p className="text-eyebrow text-accent uppercase">
           Hi, My name is Marion.
         </p>
         <h1 className="mt-2.75 max-w-177 font-code text-[1.625rem] leading-[normal] font-bold sm:text-hero-title">
           I build websites and web experiences for the modern web.
         </h1>
-        <p className="mt-5.25 max-w-218.25 text-body font-light lg:text-lead">
+        <p className="mt-7.25 max-w-218.25 text-body font-light lg:text-lead">
           {site.description}
+        </p>
+        <p className="mt-14.25 max-w-218.25 text-body font-light lg:text-lead">
+            <ButtonLink href={`${site.resume}`} download="Marion-Go-Resume.pdf" target="_blank" className="text-[14px] rounded-[3px] bg-[#4c81f4] h-9.5 px-5 normal-case tracking-normal">Résumé</ButtonLink>
         </p>
       </div>
     </section>

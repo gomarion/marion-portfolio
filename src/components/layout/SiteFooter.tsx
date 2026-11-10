@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { CookieSettingsButton } from "@/components/consent/CookieSettingsButton";
 import { site, socialLinks } from "@/data/site";
 
@@ -37,6 +38,9 @@ export function SiteFooter() {
               </a>
             </li>
           ))}
+          <li className="flex">
+            <ButtonLink href={`${site.resume}`} download="Marion-Go-Resume.pdf" target="_blank" className="text-[12px] rounded-[3px] bg-[#4c81f4] h-[28px] px-3 normal-case tracking-normal">Résumé</ButtonLink>
+          </li>
         </ul>
         <p className="text-copyright">
           © {years} {site.name}. Designed &amp; built by me.{" "}
