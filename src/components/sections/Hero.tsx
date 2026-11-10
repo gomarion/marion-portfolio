@@ -37,7 +37,7 @@ export function Hero() {
         <p className="mt-14.25 max-w-218.25 text-body font-light lg:text-lead">
             <ButtonLink href={`${site.resume}`} download="Marion-Go-Resume.pdf" target="_blank" className="text-[14px] rounded-[3px] bg-[#4c81f4] h-9.5 px-5 normal-case tracking-normal">Résumé</ButtonLink>
         </p>
-        <p className="mt-7 max-w-218.25 text-[14px] font-normal text-accent tracking-[1px] italic">
+        <p className="mt-7 max-w-218.25 text-[14px] font-code text-accent italic">
             Available for remote web development opportunities.
         </p>
       </div>
