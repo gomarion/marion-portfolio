@@ -102,7 +102,8 @@ export function ExperienceList() {
   const [open, setOpen] = useState<number | null>(null);
   // Bubble tour (from `xl`): the entry whose bubble is showing, and whether
   // the tour (from the reveal's start to the last bubble's fade-out) runs.
-  const [bubble, setBubble] = useState<number | null>(null);
+  //const [bubble, setBubble] = useState<number | null>(null);
+  const [bubbles, setBubbles] = useState<number[]>([]);
   const [touring, setTouring] = useState(false);
   // Whether hover may show bubbles: once the reveal (and, from `xl`, the
   // tour) is done. With reduced motion there's no reveal, so straight away.
@@ -141,23 +142,33 @@ export function ExperienceList() {
           return;
         }
         setTouring(true);
-        experience.forEach((_, index) => {
-          const start = REVEAL_MS + index * BUBBLE_STEP_MS;
-          timers.push(
-            window.setTimeout(() => setBubble(index), start),
-            window.setTimeout(() => setBubble(null), start + BUBBLE_SHOW_MS),
-          );
-        });
-        const end =
-          REVEAL_MS +
-          (experience.length - 1) * BUBBLE_STEP_MS +
-          BUBBLE_SHOW_MS +
-          BUBBLE_FADE_MS;
+
+        const GROUP_1 = [0, 1, 2];
+        const GROUP_2 = [3, 4];
+
+        const GROUP_DELAY = BUBBLE_SHOW_MS + BUBBLE_FADE_MS + BUBBLE_GAP_MS;
+
+        const group1Start = REVEAL_MS;
+        const group2Start = REVEAL_MS + GROUP_DELAY;
+
         timers.push(
+          // Show first three simultaneously
+          window.setTimeout(() => setBubbles(GROUP_1), group1Start),
+
+          // Hide first three
+          window.setTimeout(() => setBubbles([]), group1Start + BUBBLE_SHOW_MS),
+
+          // Show last two simultaneously
+          window.setTimeout(() => setBubbles(GROUP_2), group2Start),
+
+          // Hide last two
+          window.setTimeout(() => setBubbles([]), group2Start + BUBBLE_SHOW_MS),
+
+          // Finish the tour
           window.setTimeout(() => {
             setTouring(false);
             setHoverReady(true);
-          }, end),
+          }, group2Start + BUBBLE_SHOW_MS + BUBBLE_FADE_MS),
         );
       },
       { threshold: Array.from({ length: 21 }, (_, i) => i / 20) },
@@ -166,7 +177,8 @@ export function ExperienceList() {
     return () => {
       observer.disconnect();
       timers.forEach((timer) => window.clearTimeout(timer));
-      setBubble(null);
+      //setBubble(null);
+      setBubbles([]);
       setTouring(false);
       // A tour cut short (e.g. by resizing) still hands over to hover.
       if (revealed.current) setHoverReady(true);
@@ -187,7 +199,8 @@ export function ExperienceList() {
           }}
           data-grown={grown === index || undefined}
           data-open={open === index || undefined}
-          data-bubble={bubble === index || undefined}
+          //data-bubble={bubble === index || undefined}
+          data-bubble={bubbles.includes(index) || undefined}
           style={{ "--delay": `${index * STAGGER_MS}ms` } as CSSProperties}
           className="group group/exp relative self-center text-center text-body-sm transition-transform duration-300 ease-out data-grown:scale-106 sm:grid sm:grid-cols-[14.5rem_1fr] sm:self-stretch sm:text-left"
         >
